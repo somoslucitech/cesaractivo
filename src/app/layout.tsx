@@ -10,9 +10,20 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Detox5 | Cesar Activo Coach",
+  title: "Detox5 | Cesar Activo de Bienestar",
   description:
     "Rompe el estancamiento, desinflama tu cuerpo y recupera tu vitalidad en solo 7 dias con el Plan Detox5 de Cesar Activo.",
+  icons: {
+    icon: [
+      { url: "/favicon/favicon.ico", sizes: "any" },
+      { url: "/favicon/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon/favicon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon/favicon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
