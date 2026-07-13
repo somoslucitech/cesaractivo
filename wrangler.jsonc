@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "cesaractivo-landing",
+  "name": "cesaractivo",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-10",
   "compatibility_flags": ["nodejs_compat"],
@@ -8,14 +8,11 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // TODO(cliente): crear la base con `wrangler d1 create cesaractivo-leads`
-  // en la cuenta de Cloudflare del cliente y reemplazar database_id abajo.
-  // Para dev local el id no importa, wrangler crea un sqlite local con esa key.
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "cesaractivo-leads",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "f9a0b010-8b65-4924-8a56-e28b5cf66962",
       "migrations_dir": "migrations"
     }
   ],
