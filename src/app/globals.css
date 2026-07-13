@@ -1,26 +1,153 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Marca: Manual de Marca Cesar Activo v2.1 */
+  --color-azul: #005fa3;
+  --color-azul-oscuro: #003d73;
+  --color-azul-suave: #e6f0f8;
+  --color-amarillo: #ffd700;
+  --color-amarillo-oscuro: #c8a800;
+  --color-amarillo-claro: #fff8e1;
+  --color-blanco-calido: #fffaf3;
+  --color-crema: #f5ede0;
+  --color-texto-oscuro: #1c1c1c;
+  --color-texto-medio: #5c5c5c;
+  --color-texto-claro: #f5f5f5;
+
+  --background: var(--color-blanco-calido);
+  --foreground: var(--color-texto-oscuro);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-azul: var(--color-azul);
+  --color-azul-oscuro: var(--color-azul-oscuro);
+  --color-azul-suave: var(--color-azul-suave);
+  --color-amarillo: var(--color-amarillo);
+  --color-amarillo-oscuro: var(--color-amarillo-oscuro);
+  --color-amarillo-claro: var(--color-amarillo-claro);
+  --color-blanco-calido: var(--color-blanco-calido);
+  --color-crema: var(--color-crema);
+  --color-texto-oscuro: var(--color-texto-oscuro);
+  --color-texto-medio: var(--color-texto-medio);
+  --color-texto-claro: var(--color-texto-claro);
+
+  /* Una sola familia tipografica (Space Grotesk) para titulos y cuerpo,
+     con peso para dar jerarquia en vez de mezclar familias. */
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-space-grotesk);
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Marca de agua: pagina de tema unico (claro), sin modo oscuro por diseno
+   (60% blanco calido/crema/azul suave segun el manual de marca). */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Aurora de marca para la tarjeta CTA del FAQ: mismos 6 colores del
+   manual de marca, sin tonos ajenos. @property registra el tipo de cada
+   custom property para que el navegador pueda interpolarla (blobs que
+   se mueven y laten de tamano), en vez de saltar entre valores. */
+@property --detox5-x1 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
+@property --detox5-y1 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
+@property --detox5-x2 { syntax: "<percentage>"; inherits: false; initial-value: 90%; }
+@property --detox5-y2 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
+@property --detox5-x3 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
+@property --detox5-y3 { syntax: "<percentage>"; inherits: false; initial-value: 90%; }
+@property --detox5-x4 { syntax: "<percentage>"; inherits: false; initial-value: 90%; }
+@property --detox5-y4 { syntax: "<percentage>"; inherits: false; initial-value: 90%; }
+@property --detox5-x5 { syntax: "<percentage>"; inherits: false; initial-value: 50%; }
+@property --detox5-y5 { syntax: "<percentage>"; inherits: false; initial-value: 50%; }
+@property --detox5-s1 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
+@property --detox5-s2 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
+@property --detox5-s3 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
+@property --detox5-s4 { syntax: "<percentage>"; inherits: false; initial-value: 55%; }
+@property --detox5-s5 { syntax: "<percentage>"; inherits: false; initial-value: 65%; }
+
+.detox5-animated-gradient {
+  background-color: var(--color-azul);
+  background-image:
+    radial-gradient(circle at var(--detox5-x1) var(--detox5-y1), var(--color-azul-suave) 0px, transparent var(--detox5-s1)),
+    radial-gradient(circle at var(--detox5-x2) var(--detox5-y2), var(--color-azul-oscuro) 0px, transparent var(--detox5-s2)),
+    radial-gradient(circle at var(--detox5-x3) var(--detox5-y3), var(--color-amarillo) 0px, transparent var(--detox5-s3)),
+    radial-gradient(circle at var(--detox5-x4) var(--detox5-y4), var(--color-amarillo-oscuro) 0px, transparent var(--detox5-s4)),
+    radial-gradient(circle at var(--detox5-x5) var(--detox5-y5), var(--color-blanco-calido) 0px, transparent var(--detox5-s5));
+  animation:
+    detox5-blob1 5s ease-in-out infinite,
+    detox5-blob2 6s ease-in-out infinite,
+    detox5-blob3 5.5s ease-in-out infinite,
+    detox5-blob4 6.5s ease-in-out infinite,
+    detox5-blob5 4s ease-in-out infinite,
+    detox5-size1 3.5s ease-in-out infinite,
+    detox5-size2 4.2s ease-in-out infinite,
+    detox5-size3 3.8s ease-in-out infinite,
+    detox5-size4 4.6s ease-in-out infinite,
+    detox5-size5 3s ease-in-out infinite;
+}
+
+@keyframes detox5-blob1 {
+  0%, 100% { --detox5-x1: 5%; --detox5-y1: 5%; }
+  25% { --detox5-x1: 45%; --detox5-y1: 20%; }
+  50% { --detox5-x1: 30%; --detox5-y1: 55%; }
+  75% { --detox5-x1: 0%; --detox5-y1: 30%; }
+}
+@keyframes detox5-blob2 {
+  0%, 100% { --detox5-x2: 95%; --detox5-y2: 5%; }
+  33% { --detox5-x2: 55%; --detox5-y2: 35%; }
+  66% { --detox5-x2: 80%; --detox5-y2: 65%; }
+}
+@keyframes detox5-blob3 {
+  0%, 100% { --detox5-x3: 5%; --detox5-y3: 95%; }
+  40% { --detox5-x3: 45%; --detox5-y3: 65%; }
+  70% { --detox5-x3: 25%; --detox5-y3: 100%; }
+}
+@keyframes detox5-blob4 {
+  0%, 100% { --detox5-x4: 95%; --detox5-y4: 95%; }
+  30% { --detox5-x4: 60%; --detox5-y4: 70%; }
+  60% { --detox5-x4: 100%; --detox5-y4: 50%; }
+}
+@keyframes detox5-blob5 {
+  0%, 100% { --detox5-x5: 50%; --detox5-y5: 50%; }
+  25% { --detox5-x5: 70%; --detox5-y5: 30%; }
+  50% { --detox5-x5: 40%; --detox5-y5: 70%; }
+  75% { --detox5-x5: 30%; --detox5-y5: 40%; }
+}
+
+@keyframes detox5-size1 { 0%, 100% { --detox5-s1: 45%; } 50% { --detox5-s1: 80%; } }
+@keyframes detox5-size2 { 0%, 100% { --detox5-s2: 45%; } 50% { --detox5-s2: 85%; } }
+@keyframes detox5-size3 { 0%, 100% { --detox5-s3: 45%; } 50% { --detox5-s3: 78%; } }
+@keyframes detox5-size4 { 0%, 100% { --detox5-s4: 45%; } 50% { --detox5-s4: 82%; } }
+@keyframes detox5-size5 { 0%, 100% { --detox5-s5: 50%; } 50% { --detox5-s5: 85%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .detox5-animated-gradient {
+    animation: none;
+  }
 }

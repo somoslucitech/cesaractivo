@@ -17,6 +17,12 @@
 /.next/
 /out/
 
+# opennext / cloudflare
+/.open-next/
+/.wrangler/
+cloudflare-env.d.ts
+worker-configuration.d.ts
+
 # production
 /build
 
