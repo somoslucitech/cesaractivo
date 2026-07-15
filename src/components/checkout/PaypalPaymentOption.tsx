@@ -95,7 +95,7 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
   if (status === "error" || !clientId) {
     return (
       <p className="text-sm text-texto-medio">
-        PayPal no esta disponible en este momento. Intenta con la otra opcion de pago.
+        PayPal no está disponible en este momento. Intenta con la otra opción de pago.
       </p>
     );
   }

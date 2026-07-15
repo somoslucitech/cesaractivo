@@ -6,29 +6,29 @@ import { CtaButton } from "@/components/checkout/CtaButton";
 
 const FAQS = [
   {
-    question: "¿Cuanto cuesta y que metodos de pago aceptan?",
+    question: "¿Cuánto cuesta y qué métodos de pago aceptan?",
     answer:
-      "La fase diagnostica del Plan Detox5 tiene una inversion unica de $18. Puedes pagar con Pago Movil, Zelle, tarjeta internacional, PayPal o criptomoneda.",
+      "La fase diagnóstica del Plan Detox5 tiene una inversión única de $18. Puedes pagar con Pago Móvil, Zelle, tarjeta internacional, PayPal o criptomoneda.",
   },
   {
-    question: "¿Cuales son los horarios de los entrenamientos en vivo?",
+    question: "¿Cuáles son los horarios de los entrenamientos en vivo?",
     answer:
-      "Team Puro Power Online tiene mas de 18 horarios de clases en vivo por semana. En Caracas entrenamos presencial en el Parque del Este de lunes a viernes, y los domingos desde las 7:00 am hacemos el Encuentro de Bienestar comunitario.",
+      "Team Puro Power Online tiene más de 18 horarios de clases en vivo por semana. En Caracas entrenamos presencial en el Parque del Este de lunes a viernes, y los domingos desde las 7:00 am hacemos el Encuentro de Bienestar comunitario.",
   },
   {
-    question: "No tengo buena condicion fisica, ¿puedo hacerlo a mis anos?",
+    question: "No tengo buena condición física, ¿puedo hacerlo a mis años?",
     answer:
-      "Totalmente. El metodo esta disenado para mujeres entre 40 y 70 anos. Las rutinas se adaptan a tu rango de movimiento actual para proteger tus articulaciones y evitar lesiones.",
+      "Totalmente. El método está diseñado para mujeres entre 40 y 70 años. Las rutinas se adaptan a tu rango de movimiento actual para proteger tus articulaciones y evitar lesiones.",
   },
   {
     question: "¿El seguimiento se puede hacer solo presencial, en el parque?",
     answer:
-      "Los entrenamientos tienen horarios fijos en el parque o por streaming. El acompanamiento central, la supervision de tus habitos y el control de tu alimentacion se hacen a diario por WhatsApp: ahi esta el verdadero valor del metodo.",
+      "Los entrenamientos tienen horarios fijos en el parque o por streaming. El acompañamiento central, la supervisión de tus hábitos y el control de tu alimentación se hacen a diario por WhatsApp: ahí está el verdadero valor del método.",
   },
   {
     question: "¿Debo comprar suplementos costosos o pasar hambre?",
     answer:
-      "No. No vendemos pastillas ni batidos milagrosos. El metodo te ensena a comer comida real, sabrosa y accesible que consigues en cualquier supermercado.",
+      "No. No vendemos pastillas ni batidos milagrosos. El método te enseña a comer comida real, sabrosa y accesible que consigues en cualquier supermercado.",
   },
 ];
 
@@ -42,14 +42,17 @@ export function Faq() {
   return (
     <section className="py-20 sm:py-28">
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 items-stretch gap-8 px-4 sm:px-6 lg:grid-cols-[1.6fr_1fr]">
-        <div className="detox5-animated-gradient flex flex-col items-center justify-center rounded-[24px] px-10 py-20 text-center text-blanco-calido shadow-[0_10px_30px_rgba(0,61,115,0.25)]">
-          <h2 className="max-w-sm font-display text-4xl leading-[1.1] sm:text-5xl">
-            El cambio empieza en 7 dias
-          </h2>
-          <p className="mt-4 text-sm text-blanco-calido/90 sm:text-base">
-            Diagnostico, guia y acompanamiento diario por $18.
-          </p>
-          <CtaButton className="mt-8" />
+        <div className="detox5-animated-gradient relative overflow-hidden rounded-[24px] shadow-[0_10px_30px_rgba(0,61,115,0.25)]">
+          <div className="absolute inset-0 bg-azul-oscuro/40" />
+          <div className="relative flex flex-col items-center justify-center px-10 py-20 text-center text-blanco-calido">
+            <h2 className="max-w-sm font-display text-4xl leading-[1.1] sm:text-5xl">
+              El cambio empieza en 7 días
+            </h2>
+            <p className="mt-4 text-sm text-blanco-calido/90 sm:text-base">
+              Diagnóstico, guía y acompañamiento diario por $18.
+            </p>
+            <CtaButton className="mt-8" />
+          </div>
         </div>
 
         <div className="flex flex-col justify-center gap-3">

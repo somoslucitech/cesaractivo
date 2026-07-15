@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(rm -rf .next .open-next)",
+      "Bash(npx opennextjs-cloudflare *)",
+      "Bash(npx wrangler *)",
+      "Bash(curl -s -o /tmp/verify.html -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /tmp/verify2.html -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(curl -s -o /tmp/verify3.html -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(ls -la \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/fotografias/\" 2>&1)",
+      "Read(//c/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/fotografias/**)",
+      "Bash(node -e ' *)",
+      "Read(//c/tmp/**)",
+      "Bash(curl -s -o /tmp/verify4.html -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(ls -la \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/fotografias/video-hero.mp4\" 2>&1)",
+      "Bash(npm install *)",
+      "Bash(npm uninstall *)",
+      "Bash(mkdir -p \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/landing/public/videos\" && cp \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/fotografias/video-hero.mp4\" \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/landing/public/videos/hero.mp4\" && ls -la \"c:/Users/Leyner/Desktop/Projectos/Somos Luci/cesaractivo/landing/public/videos/\")",
+      "Bash(curl -s -o /dev/null -w \"home: %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(curl -s -o /dev/null -w \"video: %{http_code}\\\\n\" -r 0-1000 http://127.0.0.1:8788/videos/hero.mp4)",
+      "Bash(curl -s -o /tmp/verifynav.html -w \"HTTP %{http_code}\\\\n\" http://127.0.0.1:8788/)",
+      "Bash(grep -o \"Iniciar mi Detox5\" /tmp/verifynav.html | wc -l)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Leyner\\Desktop\\Projectos\\Somos Luci\\cesaractivo\\fotografias"
+    ]
+  }
+}

@@ -5,10 +5,10 @@ import { HeartStraight } from "@phosphor-icons/react/dist/ssr";
 
 const PAIN_POINTS = [
   "Despertar cansada, salir cansada y regresar a casa cansada.",
-  "Inflamacion abdominal, incluso tomando solo agua.",
+  "Inflamación abdominal, incluso tomando solo agua.",
   "Hacer ejercicio sin ver cambios significativos.",
-  "Frustracion por el efecto rebote.",
-  "Depender de medicamentos para la hipertension y la diabetes.",
+  "Frustración por el efecto rebote.",
+  "Depender de medicamentos para la hipertensión y la diabetes.",
 ];
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
@@ -18,7 +18,7 @@ export function ProblemAgitation() {
   const desireDelay = 0.2 + PAIN_POINTS.length * 0.1 + 0.15;
 
   return (
-    <section className="bg-crema/50 py-20 sm:py-28">
+    <section className="bg-crema/50 py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <motion.h2
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export function ProblemAgitation() {
           transition={{ duration: 0.5, ease: EASE_OUT }}
           className="max-w-2xl font-display text-3xl text-texto-oscuro md:text-4xl"
         >
-          ¿Sientes que por mas ejercicio que haces, tu cuerpo simplemente no responde?
+          ¿Sientes que por más ejercicio que haces, tu cuerpo simplemente no responde?
         </motion.h2>
         <motion.p
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
@@ -36,8 +36,8 @@ export function ProblemAgitation() {
           transition={{ duration: 0.5, delay: 0.08, ease: EASE_OUT }}
           className="mt-4 max-w-2xl text-base text-texto-medio sm:text-lg"
         >
-          Con los anos las reglas del juego cambian. El estres, los desarreglos hormonales y
-          las dietas restrictivas bloquean tu diseno biologico. No es falta de fuerza de
+          Con los años las reglas del juego cambian. El estrés, los desarreglos hormonales y
+          las dietas restrictivas bloquean tu diseño biológico. No es falta de fuerza de
           voluntad, es un organismo inflamado.
         </motion.p>
 

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
   if (!env.PAYPAL_CLIENT_ID || !env.PAYPAL_CLIENT_SECRET || !env.PAYPAL_WEBHOOK_ID) {
     return NextResponse.json(
-      { error: "PayPal webhook no esta configurado todavia" },
+      { error: "PayPal webhook no está configurado todavía" },
       { status: 503 },
     );
   }
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
   );
 
   if (!isValid) {
-    return NextResponse.json({ error: "Firma invalida" }, { status: 401 });
+    return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
   }
 
   if (event.event_type !== "PAYMENT.CAPTURE.COMPLETED") {

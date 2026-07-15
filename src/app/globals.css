@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
 :root {
-  /* Marca: Manual de Marca Cesar Activo v2.1 */
+  /* Marca: Manual de Marca César Activo v2.1 */
   --color-azul: #005fa3;
   --color-azul-oscuro: #003d73;
   --color-azul-suave: #e6f0f8;
@@ -34,8 +39,8 @@
   --color-texto-medio: var(--color-texto-medio);
   --color-texto-claro: var(--color-texto-claro);
 
-  /* Una sola familia tipografica (Space Grotesk) para titulos y cuerpo,
-     con peso para dar jerarquia en vez de mezclar familias. */
+  /* Una sola familia tipográfica (Space Grotesk) para títulos y cuerpo,
+     con peso para dar jerarquía en vez de mezclar familias. */
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-space-grotesk);
 
@@ -43,8 +48,8 @@
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* Marca de agua: pagina de tema unico (claro), sin modo oscuro por diseno
-   (60% blanco calido/crema/azul suave segun el manual de marca). */
+/* Marca de agua: página de tema único (claro), sin modo oscuro por diseño
+   (60% blanco cálido/crema/azul suave según el manual de marca). */
 
 body {
   background: var(--background);
@@ -74,7 +79,7 @@ h3 {
 /* Aurora de marca para la tarjeta CTA del FAQ: mismos 6 colores del
    manual de marca, sin tonos ajenos. @property registra el tipo de cada
    custom property para que el navegador pueda interpolarla (blobs que
-   se mueven y laten de tamano), en vez de saltar entre valores. */
+   se mueven y laten de tamaño), en vez de saltar entre valores. */
 @property --detox5-x1 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
 @property --detox5-y1 { syntax: "<percentage>"; inherits: false; initial-value: 10%; }
 @property --detox5-x2 { syntax: "<percentage>"; inherits: false; initial-value: 90%; }

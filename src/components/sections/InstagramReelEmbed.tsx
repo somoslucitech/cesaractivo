@@ -18,8 +18,8 @@ interface InstagramReelEmbedProps {
 /**
  * Tarjeta oficial de Instagram (oEmbed/blockquote) renderizada desde el
  * primer render, sin gate de click. embed.js se carga una sola vez para
- * las 3 tarjetas de la seccion (Next dedupea por src) y procesa todos los
- * blockquotes pendientes en la pagina.
+ * las 3 tarjetas de la sección (Next dedupea por src) y procesa todos los
+ * blockquotes pendientes en la página.
  */
 export function InstagramReelEmbed({ reelUrl }: InstagramReelEmbedProps) {
   useEffect(() => {

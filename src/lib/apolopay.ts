@@ -21,7 +21,7 @@ export async function createApoloPayPreorder(
   });
 
   if (!res.ok) {
-    throw new Error(`ApoloPay preorder fallo: ${res.status} ${await res.text()}`);
+    throw new Error(`ApoloPay preorder falló: ${res.status} ${await res.text()}`);
   }
 
   return (await res.json()) as { processId: string };

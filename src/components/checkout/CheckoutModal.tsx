@@ -54,8 +54,8 @@ export function CheckoutModal() {
               <>
                 <h2 className="font-display text-2xl text-azul-oscuro">Inicia tu Detox5</h2>
                 <p className="mb-6 mt-1 text-sm text-texto-medio">
-                  Registra tus datos para que Cesar y su equipo te acompanen desde el primer
-                  dia.
+                  Registra tus datos para que César y su equipo te acompañen desde el primer
+                  día.
                 </p>
                 <LeadForm
                   onCreated={(id) => {
@@ -69,10 +69,10 @@ export function CheckoutModal() {
             {step === "payment" && leadId && (
               <>
                 <h2 className="font-display text-2xl text-azul-oscuro">
-                  Elige tu metodo de pago
+                  Elige tu método de pago
                 </h2>
                 <p className="mb-6 mt-1 text-sm text-texto-medio">
-                  Acceso inmediato tras la confirmacion del pago.
+                  Acceso inmediato tras la confirmación del pago.
                 </p>
                 <PaymentStep leadId={leadId} onSuccess={() => setStep("success")} />
               </>
@@ -84,7 +84,7 @@ export function CheckoutModal() {
                   Listo, ya eres parte del reto
                 </h2>
                 <p className="mt-2 text-texto-medio">
-                  En breve el equipo de Cesar te escribe por WhatsApp para activar tu ficha
+                  En breve el equipo de César te escribe por WhatsApp para activar tu ficha
                   C.A.D.D. y darte acceso al grupo de enfoque.
                 </p>
                 <button

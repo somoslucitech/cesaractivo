@@ -3,7 +3,7 @@ export {};
 /**
  * Secrets y vars que no viven en wrangler.jsonc (se cargan con
  * `wrangler secret put <NAME>` en la cuenta del cliente). Declaradas
- * aqui solo para tipar `env` en los route handlers; cf-typegen no las
+ * aquí solo para tipar `env` en los route handlers; cf-typegen no las
  * genera porque no son bindings de infraestructura.
  */
 declare global {

@@ -6,10 +6,11 @@ import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { CtaButton } from "@/components/checkout/CtaButton";
 
 /**
- * Zoom Parallax Hero: la foto de fondo escala y se desplaza atada al
- * scroll de la propia seccion (useScroll + useTransform, nunca scrollY en
+ * Zoom Parallax Hero: el video de fondo escala y se desplaza atado al
+ * scroll de la propia sección (useScroll + useTransform, nunca scrollY en
  * React state). Un scrim oscuro uniforme garantiza el contraste del texto
- * sin importar que zona de la foto quede detras.
+ * sin importar qué frame del video quede detrás. Mismo video en todas las
+ * resoluciones (autoplay, muted, loop, sin controles).
  */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -28,25 +29,20 @@ export function Hero() {
   return (
     <section ref={sectionRef} className="relative flex min-h-[100dvh] items-center overflow-hidden">
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 bg-azul-oscuro"
         style={shouldReduceMotion ? undefined : { scale: imageScale, y: imageY }}
       >
-        <Image
-          src="/photos/hero-bg-mobile.webp"
-          alt="Mujer sonriente y activa, resultado del Plan Detox5"
-          fill
-          sizes="100vw"
-          className="object-cover sm:hidden"
-          priority
-        />
-        <Image
-          src="/photos/hero-bg.webp"
-          alt="Mujer sonriente y activa, resultado del Plan Detox5"
-          fill
-          sizes="100vw"
-          className="hidden object-cover sm:block"
-          priority
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/photos/hero-bg.webp"
+          className="h-full w-full object-cover"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-texto-oscuro/45" />
       </motion.div>
 
@@ -65,7 +61,7 @@ export function Hero() {
           />
         </span>
         <h1 className="max-w-xl font-display text-4xl leading-[1.05] text-blanco-calido md:text-5xl lg:text-6xl">
-          Recupera el control de tu cuerpo en 7 dias
+          Recupera el control de tu cuerpo en 7 días
         </h1>
         <p className="max-w-md text-base text-blanco-calido/85 sm:text-lg">
           Activa tu metabolismo, recupera tu balance hormonal y desintoxica tu cuerpo con

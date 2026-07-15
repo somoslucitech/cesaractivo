@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { error: "Datos invalidos", issues: parsed.error.flatten() },
+      { error: "Datos inválidos", issues: parsed.error.flatten() },
       { status: 400 },
     );
   }

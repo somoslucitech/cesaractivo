@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const parsed = bodySchema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "leadId invalido" }, { status: 400 });
+    return NextResponse.json({ error: "leadId inválido" }, { status: 400 });
   }
 
   const lead = await getLeadById(parsed.data.leadId);
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true });
   if (!env.PAYPAL_CLIENT_ID || !env.PAYPAL_CLIENT_SECRET) {
     return NextResponse.json(
-      { error: "PayPal no esta configurado todavia" },
+      { error: "PayPal no está configurado todavía" },
       { status: 503 },
     );
   }

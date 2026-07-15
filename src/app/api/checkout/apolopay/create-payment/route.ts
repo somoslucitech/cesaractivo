@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const parsed = bodySchema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "leadId invalido" }, { status: 400 });
+    return NextResponse.json({ error: "leadId inválido" }, { status: 400 });
   }
 
   const lead = await getLeadById(parsed.data.leadId);
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   const { env } = await getCloudflareContext({ async: true });
   if (!env.APOLOPAY_SECRET_KEY || !env.APOLOPAY_PUBLIC_KEY) {
     return NextResponse.json(
-      { error: "ApoloPay no esta configurado todavia" },
+      { error: "ApoloPay no está configurado todavía" },
       { status: 503 },
     );
   }

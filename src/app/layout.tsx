@@ -10,9 +10,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Detox5 | Cesar Activo de Bienestar",
+  title: "Detox5 | César Activo de Bienestar",
   description:
-    "Rompe el estancamiento, desinflama tu cuerpo y recupera tu vitalidad en solo 7 dias con el Plan Detox5 de Cesar Activo.",
+    "Rompe el estancamiento, desinflama tu cuerpo y recupera tu vitalidad en solo 7 días con el Plan Detox5 de César Activo.",
   icons: {
     icon: [
       { url: "/favicon/favicon.ico", sizes: "any" },

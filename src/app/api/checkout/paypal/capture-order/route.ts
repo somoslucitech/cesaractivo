@@ -11,13 +11,13 @@ export async function POST(request: NextRequest) {
   const parsed = bodySchema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "orderId invalido" }, { status: 400 });
+    return NextResponse.json({ error: "orderId inválido" }, { status: 400 });
   }
 
   const { env } = await getCloudflareContext({ async: true });
   if (!env.PAYPAL_CLIENT_ID || !env.PAYPAL_CLIENT_SECRET) {
     return NextResponse.json(
-      { error: "PayPal no esta configurado todavia" },
+      { error: "PayPal no está configurado todavía" },
       { status: 503 },
     );
   }
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     parsed.data.orderId,
   );
 
-  // Actualizacion optimista para la UI. El webhook de PayPal
+  // Actualización optimista para la UI. El webhook de PayPal
   // (PAYMENT.CAPTURE.COMPLETED) es la fuente de verdad definitiva.
   if (capture.status === "COMPLETED") {
     await markLeadPaidByPaypalOrderId(parsed.data.orderId);

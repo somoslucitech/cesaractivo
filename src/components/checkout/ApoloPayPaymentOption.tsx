@@ -53,7 +53,7 @@ export function ApoloPayPaymentOption({ leadId, onSuccess }: ApoloPayPaymentOpti
   if (state.status === "error") {
     return (
       <p className="text-sm text-texto-medio">
-        El pago con criptomoneda no esta disponible en este momento. Intenta con PayPal.
+        El pago con criptomoneda no está disponible en este momento. Intenta con PayPal.
       </p>
     );
   }

@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { PaypalPaymentOption } from "./PaypalPaymentOption";
 
 // @apolopay-sdk/ui registra un custom element (Lit/HTMLElement) al cargar
-// el modulo. HTMLElement no existe en el runtime SSR, asi que este
+// el módulo. HTMLElement no existe en el runtime SSR, así que este
 // componente solo puede importarse en cliente.
 const ApoloPayPaymentOption = dynamic(
   () => import("./ApoloPayPaymentOption").then((mod) => mod.ApoloPayPaymentOption),
@@ -55,7 +55,7 @@ export function PaymentStep({ leadId, onSuccess }: PaymentStepProps) {
           }`}
         >
           <p className="font-semibold text-texto-oscuro">Criptomoneda</p>
-          <p className="text-sm text-texto-medio">Via ApoloPay</p>
+          <p className="text-sm text-texto-medio">Vía ApoloPay</p>
         </button>
       </div>
 
@@ -63,7 +63,7 @@ export function PaymentStep({ leadId, onSuccess }: PaymentStepProps) {
         {method === "paypal" && <PaypalPaymentOption leadId={leadId} onSuccess={onSuccess} />}
         {method === "apolopay" && <ApoloPayPaymentOption leadId={leadId} onSuccess={onSuccess} />}
         {method === null && (
-          <p className="text-sm text-texto-medio">Elige un metodo de pago para continuar.</p>
+          <p className="text-sm text-texto-medio">Elige un método de pago para continuar.</p>
         )}
       </div>
     </div>

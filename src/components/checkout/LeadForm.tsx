@@ -49,7 +49,7 @@ export function LeadForm({ onCreated }: LeadFormProps) {
         label="Nombre completo"
         value={values.name}
         onChange={(v) => setValues((prev) => ({ ...prev, name: v }))}
-        placeholder="Como te llamas"
+        placeholder="Cómo te llamas"
         autoComplete="name"
         error={errors.name}
       />

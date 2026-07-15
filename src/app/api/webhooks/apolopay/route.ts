@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
   if (!env.APOLOPAY_WEBHOOK_SECRET) {
     return NextResponse.json(
-      { error: "ApoloPay webhook no esta configurado todavia" },
+      { error: "ApoloPay webhook no está configurado todavía" },
       { status: 503 },
     );
   }
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   );
 
   if (!isValid) {
-    return NextResponse.json({ error: "Firma invalida" }, { status: 401 });
+    return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
   }
 
   const event = JSON.parse(rawBody) as ApoloPayWebhookEvent;

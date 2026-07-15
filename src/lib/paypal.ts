@@ -21,7 +21,7 @@ async function getAccessToken(creds: PaypalCredentials): Promise<string> {
   });
 
   if (!res.ok) {
-    throw new Error(`PayPal OAuth fallo: ${res.status} ${await res.text()}`);
+    throw new Error(`PayPal OAuth falló: ${res.status} ${await res.text()}`);
   }
 
   const data = (await res.json()) as { access_token: string };
@@ -46,7 +46,7 @@ export async function createPaypalOrder(
       purchase_units: [
         {
           custom_id: leadId,
-          description: "Plan Detox5 - Cesar Activo",
+          description: "Plan Detox5 - César Activo",
           amount: {
             currency_code: "USD",
             value: amountUsd.toFixed(2),
@@ -57,7 +57,7 @@ export async function createPaypalOrder(
   });
 
   if (!res.ok) {
-    throw new Error(`PayPal create order fallo: ${res.status} ${await res.text()}`);
+    throw new Error(`PayPal create order falló: ${res.status} ${await res.text()}`);
   }
 
   const data = (await res.json()) as { id: string };
@@ -79,7 +79,7 @@ export async function capturePaypalOrder(creds: PaypalCredentials, orderId: stri
   );
 
   if (!res.ok) {
-    throw new Error(`PayPal capture fallo: ${res.status} ${await res.text()}`);
+    throw new Error(`PayPal capture falló: ${res.status} ${await res.text()}`);
   }
 
   return (await res.json()) as { id: string; status: string };

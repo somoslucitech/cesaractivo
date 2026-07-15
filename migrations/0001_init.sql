@@ -1,5 +1,5 @@
 -- Leads del Plan Detox5. Un lead se crea al llenar el form de registro,
--- antes de que exista ningun pago. payment_status pasa a 'paid' solo cuando
+-- antes de que exista ningún pago. payment_status pasa a 'paid' solo cuando
 -- el webhook del proveedor (fuente de verdad) lo confirma.
 CREATE TABLE IF NOT EXISTS leads (
   id TEXT PRIMARY KEY,
