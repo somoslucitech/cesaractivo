@@ -1,5 +1,6 @@
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsappBubble } from "@/components/layout/WhatsappBubble";
 import { Hero } from "@/components/sections/Hero";
 import { ProblemAgitation } from "@/components/sections/ProblemAgitation";
 import { ParadigmShift } from "@/components/sections/ParadigmShift";
@@ -30,6 +31,7 @@ export default function Home() {
         <FinalCta />
       </main>
       <Footer />
+      <WhatsappBubble />
     </>
   );
 }

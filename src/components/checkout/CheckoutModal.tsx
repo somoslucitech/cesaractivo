@@ -8,7 +8,7 @@ import { LeadForm } from "./LeadForm";
 import { PaymentStep } from "./PaymentStep";
 
 export function CheckoutModal() {
-  const { isOpen, close, step, leadId, setStep, setLeadId } = useCheckout();
+  const { isOpen, close, step, leadId, leadName, setStep, setLead } = useCheckout();
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -58,8 +58,8 @@ export function CheckoutModal() {
                   día.
                 </p>
                 <LeadForm
-                  onCreated={(id) => {
-                    setLeadId(id);
+                  onCreated={(lead) => {
+                    setLead(lead);
                     setStep("payment");
                   }}
                 />
@@ -74,7 +74,11 @@ export function CheckoutModal() {
                 <p className="mb-6 mt-1 text-sm text-texto-medio">
                   Acceso inmediato tras la confirmación del pago.
                 </p>
-                <PaymentStep leadId={leadId} onSuccess={() => setStep("success")} />
+                <PaymentStep
+                  leadId={leadId}
+                  leadName={leadName}
+                  onSuccess={() => setStep("success")}
+                />
               </>
             )}
 

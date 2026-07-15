@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { leadSchema } from "@/lib/schemas";
 
 interface LeadFormProps {
-  onCreated: (leadId: string) => void;
+  onCreated: (lead: { id: string; name: string }) => void;
 }
 
 export function LeadForm({ onCreated }: LeadFormProps) {
@@ -36,7 +36,7 @@ export function LeadForm({ onCreated }: LeadFormProps) {
       });
       if (!res.ok) throw new Error("request failed");
       const data = (await res.json()) as { leadId: string };
-      onCreated(data.leadId);
+      onCreated({ id: data.leadId, name: parsed.data.name });
     } catch {
       setStatus("error");
     }

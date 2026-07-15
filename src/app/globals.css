@@ -2,7 +2,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  /* Alto de la isla flotante del nav (pt-4 + h-16) mas holgura. */
+  scroll-padding-top: 6.5rem;
 }
 
 :root {

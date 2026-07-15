@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
@@ -12,24 +12,26 @@ const NAV_LINKS = [
   { href: "#cesar", label: "Sobre César" },
 ];
 
-// En el servidor no existe layout effect; useEffect evita el warning de SSR.
-const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
-
+/**
+ * Isla flotante de cristal. A proposito NO depende de ningun estado de
+ * scroll: el navegador pinta el HTML del servidor antes de que React
+ * hidrate, asi que cualquier estilo atado a JS produce un parpadeo si la
+ * pagina carga ya scrolleada. Aca el panel siempre lleva su propio fondo
+ * translucido + blur, de modo que se lee igual sobre el video del hero y
+ * sobre el contenido claro, incluso antes de que corra el JS.
+ */
 export function Nav() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Layout effect (no useEffect) para corregir el estado ANTES del primer
-  // pintado. Si la pagina carga ya scrolleada, sin esto se ve un flash de
-  // navbar transparente con links blancos sobre fondo claro.
-  useIsomorphicLayoutEffect(() => {
-    function handleScroll() {
-      setIsScrolled(window.scrollY > 24);
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsMenuOpen(false);
     }
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMenuOpen]);
 
   // Cierra el menu mobile si la pantalla crece a desktop mientras esta abierto.
   useEffect(() => {
@@ -39,95 +41,76 @@ export function Nav() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const isSolid = isScrolled || isMenuOpen;
-
   return (
-    <header
-      className={`sticky top-0 z-40 transition-colors duration-300 ${
-        isSolid
-          ? "border-b border-crema/80 bg-blanco-calido/90 backdrop-blur"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
-      {/* Scrim sobre el video del hero: garantiza que los links blancos se
-          lean aunque pase un frame claro detras. */}
-      <div
-        aria-hidden
-        className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-texto-oscuro/60 to-transparent transition-opacity duration-300 ${
-          isSolid ? "opacity-0" : "opacity-100"
-        }`}
-      />
-
-      <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6">
-        <span
-          className={`inline-flex shrink-0 items-center rounded-xl transition-colors duration-300 ${
-            isSolid ? "" : "bg-blanco-calido/90 px-3 py-1.5"
-          }`}
-        >
-          <Image
-            src="/logos/cesar-activo-coach-mark.png"
-            alt="César Activo Coach"
-            width={559}
-            height={344}
-            className="h-9 w-auto sm:h-11"
-            priority
-          />
-        </span>
-
-        <nav className="hidden flex-1 items-center justify-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-medium transition-colors duration-300 hover:text-azul ${
-                isSolid ? "text-texto-oscuro" : "text-blanco-calido"
-              }`}
-            >
-              {link.label}
+    <header className="sticky top-0 z-40 px-4 pt-4 sm:px-6">
+      <div className="mx-auto max-w-7xl">
+        <div className="overflow-hidden rounded-2xl border border-blanco-calido/60 bg-blanco-calido/80 shadow-[0_10px_30px_-12px_rgba(0,61,115,0.35)] backdrop-blur-md">
+          <div className="flex h-16 items-center justify-between gap-6 px-4 sm:px-5">
+            <a href="#top" aria-label="Ir al inicio" className="shrink-0">
+              <Image
+                src="/logos/cesar-activo-coach-mark.png"
+                alt="César Activo Coach"
+                width={559}
+                height={344}
+                className="h-9 w-auto sm:h-10"
+                priority
+              />
             </a>
-          ))}
-        </nav>
 
-        <CtaButton className="hidden shrink-0 px-5 py-2.5 text-sm md:inline-flex" />
-
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
-          aria-expanded={isMenuOpen}
-          className={`inline-flex shrink-0 items-center justify-center rounded-full p-2 transition-colors duration-300 md:hidden ${
-            isSolid ? "text-texto-oscuro" : "text-blanco-calido"
-          }`}
-        >
-          {isMenuOpen ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-crema/80 bg-blanco-calido md:hidden"
-          >
-            <nav className="flex flex-col gap-1 px-4 py-4 sm:px-6">
+            <nav aria-label="Principal" className="hidden flex-1 items-center justify-center gap-8 md:flex">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="rounded-lg px-2 py-3 text-base font-medium text-texto-oscuro transition-colors duration-150 hover:bg-crema/60"
+                  className="rounded text-sm font-medium text-texto-oscuro transition-colors duration-200 hover:text-azul focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-azul"
                 >
                   {link.label}
                 </a>
               ))}
-              <CtaButton className="mt-2 w-full justify-center" />
             </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            <CtaButton className="hidden shrink-0 px-5 py-2.5 text-sm md:inline-flex" />
+
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
+              aria-controls="menu-mobile"
+              className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-texto-oscuro transition-transform duration-150 ease-out active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azul md:hidden"
+            >
+              {isMenuOpen ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
+            </button>
+          </div>
+
+          <AnimatePresence initial={false}>
+            {isMenuOpen && (
+              <motion.div
+                id="menu-mobile"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden border-t border-crema/70 md:hidden"
+              >
+                <nav aria-label="Principal móvil" className="flex flex-col gap-1 p-4">
+                  {NAV_LINKS.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="rounded-lg px-2 py-3 text-base font-medium text-texto-oscuro transition-colors duration-150 hover:bg-crema/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azul"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                  <CtaButton className="mt-2 w-full justify-center" />
+                </nav>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </header>
   );
 }

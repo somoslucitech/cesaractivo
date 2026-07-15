@@ -25,9 +25,16 @@ export function Hero() {
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  // Cesar se mueve menos que el video: al ir mas lento se lee como figura
+  // en primer plano y no como parte del fondo.
+  const figureY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   return (
-    <section ref={sectionRef} className="relative flex min-h-[100dvh] items-center overflow-hidden">
+    <section
+      id="top"
+      ref={sectionRef}
+      className="relative flex min-h-[100dvh] items-center overflow-hidden"
+    >
       <motion.div
         className="absolute inset-0 bg-azul-oscuro"
         style={shouldReduceMotion ? undefined : { scale: imageScale, y: imageY }}
@@ -44,6 +51,23 @@ export function Hero() {
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-texto-oscuro/45" />
+      </motion.div>
+
+      {/* Cesar recortado a la derecha. Oculto bajo md: en mobile competiria
+          con el titular y el CTA, que ya llenan el alto de la pantalla. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] max-w-2xl md:block lg:w-[42%]"
+        style={shouldReduceMotion ? undefined : { y: figureY }}
+      >
+        <Image
+          src="/photos/hero-cesar.webp"
+          alt=""
+          fill
+          sizes="(min-width: 768px) 45vw, 0px"
+          className="object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.45)]"
+          priority
+        />
       </motion.div>
 
       <motion.div

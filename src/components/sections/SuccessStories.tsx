@@ -8,7 +8,7 @@ const STORIES = [
     age: 70,
     achievement:
       "Su médico le indicó eliminar por completo la medicación para la hipertensión que tomaba desde 2009, tras confirmar que su prueba MAPA salió perfecta. Demostró que la constancia transforma una vida entera y no solo un peso, graduándose con éxito en la Escuela de Alimentación.",
-    reelUrl: "https://www.instagram.com/reel/DYDhZygA7Gv/",
+    reelUrl: "https://www.instagram.com/reel/DQp1bCFAKf9/",
   },
   {
     name: "Karelys",
@@ -22,7 +22,7 @@ const STORIES = [
     age: 62,
     achievement:
       "Demostró que el cuerpo no tiene fecha de vencimiento. No solo bajó 10 kilos y evidenció un cambio físico drástico en la báscula y la estética, sino que recuperó los niveles de energía y hoy afirma sentirse más activa que una muchacha de 15 años.",
-    reelUrl: "https://www.instagram.com/reel/DQp1bCFAKf9/",
+    reelUrl: "https://www.instagram.com/reel/DYDhZygA7Gv/",
   },
 ];
 
