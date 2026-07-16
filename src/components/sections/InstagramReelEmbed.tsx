@@ -29,7 +29,7 @@ export function InstagramReelEmbed({ reelUrl }: InstagramReelEmbedProps) {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden bg-texto-oscuro/5 [&_iframe]:!w-full">
+    <div className="w-full overflow-hidden bg-superficie-2 [&_iframe]:!w-full">
       <Script
         src="https://www.instagram.com/embed.js"
         strategy="lazyOnload"

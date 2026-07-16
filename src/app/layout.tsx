@@ -26,6 +26,14 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Corre de forma sincrona antes del primer pintado: si el usuario forzo un
+ * tema con el selector, lo aplica ya. Sin esto, alguien con el SO en claro
+ * que eligio oscuro veria la pagina clara y saltaria a oscura al hidratar.
+ * La clave "tema" debe coincidir con CLAVE_TEMA de SelectorTema.tsx.
+ */
+const SCRIPT_TEMA = `try{var t=localStorage.getItem("tema");if(t==="claro"||t==="oscuro"){document.documentElement.dataset.theme=t==="claro"?"light":"dark"}}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,8 +42,14 @@ export default function RootLayout({
   // Ojo: nada de h-full en <html>. Un height:100% fijo ahi rompe el scroll
   // por anclas (#plan, #cesar...). Era un resto del scaffold de Next.js.
   return (
-    <html lang="es" className={`${spaceGrotesk.variable} antialiased`}>
-      <body className="flex min-h-[100dvh] flex-col bg-blanco-calido text-texto-oscuro">
+    // suppressHydrationWarning: el script de abajo escribe data-theme antes
+    // de que React hidrate, asi que el atributo no coincide con el HTML del
+    // servidor. Es esperado.
+    <html lang="es" className={`${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
+      </head>
+      <body className="flex min-h-[100dvh] flex-col bg-superficie text-tinta">
         <CheckoutProvider>{children}</CheckoutProvider>
       </body>
     </html>

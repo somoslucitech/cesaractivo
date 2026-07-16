@@ -7,7 +7,16 @@ html {
 }
 
 :root {
-  /* Marca: Manual de Marca César Activo v2.1 */
+  /* Le dice al navegador que la pagina soporta ambos temas. Sin esto,
+     Android/Chrome aplican su "tema oscuro forzado" e invierten la paleta
+     de marca por su cuenta (el amarillo terminaba viendose marron). */
+  color-scheme: light dark;
+
+  /* ---- LITERALES DE MARCA (Manual v2.1). NO cambian con el tema. ----
+     Son nombres de un color concreto, no de un rol. Se usan tal cual en
+     los bloques de color de marca: el azul de FinalCta, el amarillo del
+     CTA, el texto claro sobre esos bloques. Invertirlos romperia esos
+     casos (ej: text-blanco-calido sobre bg-azul). */
   --color-azul: #005fa3;
   --color-azul-oscuro: #003d73;
   --color-azul-suave: #e6f0f8;
@@ -20,8 +29,83 @@ html {
   --color-texto-medio: #5c5c5c;
   --color-texto-claro: #f5f5f5;
 
-  --background: var(--color-blanco-calido);
-  --foreground: var(--color-texto-oscuro);
+  /* ---- TOKENS SEMANTICOS. Estos SI cambian con el tema del sistema. ----
+     Nombran un rol (superficie, tinta, linea), no un color. */
+  --color-superficie: #fffaf3;
+  --color-superficie-2: #faf5ec;
+  --color-tarjeta: #fffaf3;
+  --color-linea: #f5ede0;
+  --color-tinta: #1c1c1c;
+  --color-tinta-suave: #5c5c5c;
+  --color-tinte-azul: #e6f0f8;
+  --color-tinte-amarillo: #fff8e1;
+  --color-azul-texto: #005fa3;
+  /* Titulos azules del modal: en claro conserva el #003d73 exacto del
+     manual (10.5:1); en oscuro ese azul cae a 1.5:1 y hay que aclararlo. */
+  --color-azul-titulo: #003d73;
+  /* Oro oscuro para el acento en tema claro (eyebrows, numeracion, icono
+     del sol). El amarillo-oscuro del manual (#c8a800) da 2.2:1 sobre el
+     blanco calido: es un color de relleno del 10%, no legible como texto
+     pequeño. Este baja el mismo tono hasta 5.5:1. En oscuro el amarillo
+     de marca si funciona y se usa tal cual. */
+  --color-acento: #7a6500;
+  --color-error: #b91c1c;
+
+  --background: var(--color-superficie);
+  --foreground: var(--color-tinta);
+}
+
+/* ---- PALETA OSCURA ----
+   Se aplica en dos casos y por eso el bloque esta duplicado abajo:
+     1. El SO pide oscuro y el selector NO forzo claro.
+     2. El selector forzo oscuro, sin importar el SO.
+   Los dos bloques DEBEN mantenerse identicos. CSS plano no permite
+   compartir un selector entre dentro y fuera de una media query.
+
+   Oscuro CALIDO, derivado de la marca: conserva la temperatura del blanco
+   calido y la crema en vez de caer en un gris neutro frio. Nada de negro
+   puro. El azul de marca (#005fa3) es muy oscuro para leerse como texto
+   sobre fondo oscuro, asi que se aclara solo para texto/iconos; los
+   bloques de color siguen usando el azul literal. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-superficie: #14120f;
+    --color-superficie-2: #1b1815;
+    --color-tarjeta: #221f1b;
+    --color-linea: #34302a;
+    --color-tinta: #f5f1ea;
+    --color-tinta-suave: #a8a29a;
+    --color-tinte-azul: #0f2438;
+    --color-tinte-amarillo: #2b2410;
+    --color-azul-texto: #58a6e0;
+    --color-azul-titulo: #7cbdea;
+    --color-acento: #ffd700;
+    /* red-700 sobre superficie oscura da 2.5:1, por debajo de AA. */
+    --color-error: #f87171;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-superficie: #14120f;
+  --color-superficie-2: #1b1815;
+  --color-tarjeta: #221f1b;
+  --color-linea: #34302a;
+  --color-tinta: #f5f1ea;
+  --color-tinta-suave: #a8a29a;
+  --color-tinte-azul: #0f2438;
+  --color-tinte-amarillo: #2b2410;
+  --color-azul-texto: #58a6e0;
+  --color-azul-titulo: #7cbdea;
+  --color-acento: #ffd700;
+  --color-error: #f87171;
+}
+
+/* Alinea los controles nativos (scrollbar, inputs) con el tema elegido. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -40,6 +124,19 @@ html {
   --color-texto-medio: var(--color-texto-medio);
   --color-texto-claro: var(--color-texto-claro);
 
+  --color-superficie: var(--color-superficie);
+  --color-superficie-2: var(--color-superficie-2);
+  --color-tarjeta: var(--color-tarjeta);
+  --color-linea: var(--color-linea);
+  --color-tinta: var(--color-tinta);
+  --color-tinta-suave: var(--color-tinta-suave);
+  --color-tinte-azul: var(--color-tinte-azul);
+  --color-tinte-amarillo: var(--color-tinte-amarillo);
+  --color-azul-texto: var(--color-azul-texto);
+  --color-azul-titulo: var(--color-azul-titulo);
+  --color-acento: var(--color-acento);
+  --color-error: var(--color-error);
+
   /* Una sola familia tipográfica (Space Grotesk) para títulos y cuerpo,
      con peso para dar jerarquía en vez de mezclar familias. */
   --font-display: var(--font-space-grotesk);
@@ -49,8 +146,10 @@ html {
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* Marca de agua: página de tema único (claro), sin modo oscuro por diseño
-   (60% blanco cálido/crema/azul suave según el manual de marca). */
+/* La proporcion 60/30/10 del manual (blanco cálido/crema/azul suave · azul ·
+   amarillo) se conserva en ambos temas: en oscuro, el 60% pasa a las
+   superficies cálidas oscuras y los bloques de azul y amarillo se mantienen
+   idénticos, que es donde vive la identidad de marca. */
 
 body {
   background: var(--background);

@@ -28,13 +28,13 @@ const STORIES = [
 
 export function SuccessStories() {
   return (
-    <section id="casos-de-exito" className="bg-crema/50 py-24 sm:py-32">
+    <section id="casos-de-exito" className="bg-superficie-2 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <Reveal className="max-w-xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amarillo-oscuro">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-acento">
             Testimonios reales
           </p>
-          <h2 className="mt-3 font-display text-3xl text-texto-oscuro md:text-4xl">
+          <h2 className="mt-3 font-display text-3xl text-tinta md:text-4xl">
             Quienes ya dejaron de sufrir con métodos tradicionales
           </h2>
         </Reveal>
@@ -45,11 +45,11 @@ export function SuccessStories() {
               key={story.name}
               as="div"
               delay={index * 0.1}
-              className="flex flex-col overflow-hidden rounded-3xl border border-crema bg-blanco-calido shadow-[0_18px_40px_-24px_rgba(0,61,115,0.35)]"
+              className="flex flex-col overflow-hidden rounded-3xl border border-linea bg-tarjeta shadow-[0_18px_40px_-24px_rgba(0,61,115,0.35)]"
             >
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-display text-xl text-texto-oscuro">
+                  <p className="font-display text-xl text-tinta">
                     {story.name}
                     {story.age ? `, ${story.age} años` : ""}
                   </p>
@@ -57,13 +57,13 @@ export function SuccessStories() {
                     href={story.reelUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex shrink-0 items-center gap-1 text-xs text-texto-medio transition-colors duration-150 hover:text-azul"
+                    className="flex shrink-0 items-center gap-1 text-xs text-tinta-suave transition-colors duration-150 hover:text-azul-texto"
                   >
                     Instagram
                     <ArrowUpRight size={14} />
                   </a>
                 </div>
-                <p className="text-sm leading-relaxed text-texto-medio">{story.achievement}</p>
+                <p className="text-sm leading-relaxed text-tinta-suave">{story.achievement}</p>
               </div>
               <div className="mt-auto">
                 <InstagramReelEmbed reelUrl={story.reelUrl} />

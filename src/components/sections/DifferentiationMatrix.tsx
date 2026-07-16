@@ -29,13 +29,13 @@ export function DifferentiationMatrix() {
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amarillo-oscuro">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-acento">
             La diferencia
           </p>
-          <h2 className="mt-3 max-w-xl font-display text-3xl text-texto-oscuro md:text-4xl">
+          <h2 className="mt-3 max-w-xl font-display text-3xl text-tinta md:text-4xl">
             ¿Por qué este método y no un sistema tradicional?
           </h2>
-          <p className="mt-4 max-w-2xl text-base text-texto-medio sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base text-tinta-suave sm:text-lg">
             A diferencia de las aplicaciones de fitness, los gimnasios saturados o las dietas de
             moda impresas en hojas genéricas, el Plan Detox5 ataca la raíz del problema de forma
             integrada:
@@ -44,11 +44,11 @@ export function DifferentiationMatrix() {
 
         <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
           {DIFFERENTIATORS.map(({ n, title, body }, index) => (
-            <Reveal key={n} as="div" delay={index * 0.08} className="flex gap-5 border-t border-crema pt-6">
-              <span className="font-display text-3xl leading-none text-amarillo-oscuro">{n}</span>
+            <Reveal key={n} as="div" delay={index * 0.08} className="flex gap-5 border-t border-linea pt-6">
+              <span className="font-display text-3xl leading-none text-acento">{n}</span>
               <div>
-                <h3 className="font-display text-lg text-texto-oscuro">{title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-texto-medio">{body}</p>
+                <h3 className="font-display text-lg text-tinta">{title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-tinta-suave">{body}</p>
               </div>
             </Reveal>
           ))}

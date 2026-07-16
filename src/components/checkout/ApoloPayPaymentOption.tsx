@@ -47,12 +47,12 @@ export function ApoloPayPaymentOption({ leadId, onSuccess }: ApoloPayPaymentOpti
   }, [leadId]);
 
   if (state.status === "loading") {
-    return <p className="text-sm text-texto-medio">Preparando pago con criptomoneda...</p>;
+    return <p className="text-sm text-tinta-suave">Preparando pago con criptomoneda...</p>;
   }
 
   if (state.status === "error") {
     return (
-      <p className="text-sm text-texto-medio">
+      <p className="text-sm text-tinta-suave">
         El pago con criptomoneda no está disponible en este momento. Intenta con PayPal.
       </p>
     );

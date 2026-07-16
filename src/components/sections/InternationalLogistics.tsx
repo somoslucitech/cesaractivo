@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function InternationalLogistics() {
   return (
-    <section className="bg-crema/50 py-24 sm:py-32">
+    <section className="bg-superficie-2 py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <Reveal>
           <div className="grid grid-cols-1 overflow-hidden rounded-[2.5rem] bg-azul-oscuro text-blanco-calido shadow-[0_30px_60px_-24px_rgba(0,61,115,0.55)] lg:grid-cols-[1.1fr_0.9fr]">

@@ -89,12 +89,12 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
   }
 
   if (status === "loading-config") {
-    return <p className="text-sm text-texto-medio">Cargando PayPal...</p>;
+    return <p className="text-sm text-tinta-suave">Cargando PayPal...</p>;
   }
 
   if (status === "error" || !clientId) {
     return (
-      <p className="text-sm text-texto-medio">
+      <p className="text-sm text-tinta-suave">
         PayPal no está disponible en este momento. Intenta con la otra opción de pago.
       </p>
     );
@@ -110,7 +110,7 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
       />
       <div ref={containerRef} />
       {status === "processing" && (
-        <p className="mt-2 text-sm text-texto-medio">Confirmando tu pago...</p>
+        <p className="mt-2 text-sm text-tinta-suave">Confirmando tu pago...</p>
       )}
     </div>
   );

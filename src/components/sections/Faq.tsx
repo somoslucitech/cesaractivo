@@ -71,14 +71,14 @@ export function Faq() {
         </div>
 
         <div className="flex flex-col justify-center gap-3">
-          <h3 className="mb-1 font-display text-2xl text-texto-oscuro">Preguntas frecuentes</h3>
+          <h3 className="mb-1 font-display text-2xl text-tinta">Preguntas frecuentes</h3>
           {FAQS.map((faq, index) => {
             const isActive = activeIndex === index;
             return (
               <div
                 key={faq.question}
-                className={`rounded-[10px] border bg-blanco-calido px-5 py-[18px] transition-all duration-200 ${
-                  isActive ? "border-azul/30 shadow-md" : "border-crema shadow-sm hover:border-azul/20"
+                className={`rounded-[10px] border bg-tarjeta px-5 py-[18px] transition-all duration-200 ${
+                  isActive ? "border-azul/30 shadow-md" : "border-linea shadow-sm hover:border-azul/20"
                 }`}
               >
                 <button
@@ -87,13 +87,13 @@ export function Faq() {
                   aria-expanded={isActive}
                   className="flex w-full items-center justify-between gap-4 text-left"
                 >
-                  <span className="text-sm font-medium text-texto-oscuro sm:text-base">
+                  <span className="text-sm font-medium text-tinta sm:text-base">
                     {faq.question}
                   </span>
                   {isActive ? (
-                    <CaretUp size={20} weight="bold" className="shrink-0 text-azul" />
+                    <CaretUp size={20} weight="bold" className="shrink-0 text-azul-texto" />
                   ) : (
-                    <CaretDown size={20} weight="bold" className="shrink-0 text-texto-medio" />
+                    <CaretDown size={20} weight="bold" className="shrink-0 text-tinta-suave" />
                   )}
                 </button>
                 <div
@@ -101,7 +101,7 @@ export function Faq() {
                     isActive ? "grid-rows-[1fr] pt-3 opacity-100" : "grid-rows-[0fr] opacity-0"
                   }`}
                 >
-                  <p className="overflow-hidden text-sm leading-relaxed text-texto-medio">
+                  <p className="overflow-hidden text-sm leading-relaxed text-tinta-suave">
                     {faq.answer}
                   </p>
                 </div>

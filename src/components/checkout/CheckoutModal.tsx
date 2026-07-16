@@ -34,7 +34,7 @@ export function CheckoutModal() {
           aria-modal="true"
         >
           <motion.div
-            className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-3xl bg-blanco-calido p-6 shadow-2xl sm:p-8"
+            className="relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-3xl bg-tarjeta p-6 shadow-2xl sm:p-8"
             initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -45,15 +45,15 @@ export function CheckoutModal() {
               type="button"
               onClick={close}
               aria-label="Cerrar"
-              className="absolute right-4 top-4 rounded-full p-1.5 text-texto-medio transition-transform duration-150 hover:bg-crema active:scale-90"
+              className="absolute right-4 top-4 rounded-full p-1.5 text-tinta-suave transition-transform duration-150 hover:bg-superficie-2 active:scale-90"
             >
               <X size={20} weight="bold" />
             </button>
 
             {step === "form" && (
               <>
-                <h2 className="font-display text-2xl text-azul-oscuro">Inicia tu Detox5</h2>
-                <p className="mb-6 mt-1 text-sm text-texto-medio">
+                <h2 className="font-display text-2xl text-azul-titulo">Inicia tu Detox5</h2>
+                <p className="mb-6 mt-1 text-sm text-tinta-suave">
                   Registra tus datos para que César y su equipo te acompañen desde el primer
                   día.
                 </p>
@@ -68,10 +68,10 @@ export function CheckoutModal() {
 
             {step === "payment" && leadId && (
               <>
-                <h2 className="font-display text-2xl text-azul-oscuro">
+                <h2 className="font-display text-2xl text-azul-titulo">
                   Elige tu método de pago
                 </h2>
-                <p className="mb-6 mt-1 text-sm text-texto-medio">
+                <p className="mb-6 mt-1 text-sm text-tinta-suave">
                   Acceso inmediato tras la confirmación del pago.
                 </p>
                 <PaymentStep
@@ -84,10 +84,10 @@ export function CheckoutModal() {
 
             {step === "success" && (
               <div className="py-4 text-center">
-                <h2 className="font-display text-2xl text-azul-oscuro">
+                <h2 className="font-display text-2xl text-azul-titulo">
                   Listo, ya eres parte del reto
                 </h2>
-                <p className="mt-2 text-texto-medio">
+                <p className="mt-2 text-tinta-suave">
                   En breve el equipo de César te escribe por WhatsApp para activar tu ficha
                   C.A.D.D. y darte acceso al grupo de enfoque.
                 </p>

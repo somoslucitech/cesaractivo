@@ -14,32 +14,32 @@ const INCLUSIONS = [
     icon: ClipboardText,
     title: "Diagnóstico metabólico inicial",
     body: "Apertura de tu ficha digital con el método C.A.D.D.: peso, medidas y antecedentes de salud para conocer tu punto de partida.",
-    bg: "bg-azul-suave",
+    bg: "bg-tinte-azul",
     span: "sm:col-span-2",
   },
   {
     icon: FileMagnifyingGlass,
     title: "Guía y lista de compras",
     body: "Qué buscar en el supermercado. Comida real y accesible, sin suplementos costosos.",
-    bg: "bg-crema",
+    bg: "bg-superficie-2",
   },
   {
     icon: Barbell,
     title: "Rutinas adaptadas",
     body: "Movilidad y fuerza según tu condición real, desde casa o al aire libre.",
-    bg: "bg-amarillo-claro",
+    bg: "bg-tinte-amarillo",
   },
   {
     icon: ChatsCircle,
     title: "Factor humano en WhatsApp",
     body: "Acompañamiento y feedback de lunes a domingo, 5:30 a 9:00 am con el coach de guardia.",
-    bg: "bg-crema",
+    bg: "bg-superficie-2",
   },
   {
     icon: VideoCamera,
     title: "Live dominical de arranque",
     body: "Sesión en vivo para despejar dudas antes de iniciar tu semana de acción.",
-    bg: "bg-azul-suave",
+    bg: "bg-tinte-azul",
   },
 ];
 
@@ -49,13 +49,13 @@ export function ProductOffer() {
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:gap-12">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amarillo-oscuro">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-acento">
               El programa
             </p>
-            <h2 className="mt-3 font-display text-3xl text-texto-oscuro md:text-4xl">
+            <h2 className="mt-3 font-display text-3xl text-tinta md:text-4xl">
               Plan Detox5: consigue el cambio que buscas en solo 7 días
             </h2>
-            <p className="mt-4 text-base text-texto-medio sm:text-lg">
+            <p className="mt-4 text-base text-tinta-suave sm:text-lg">
               Una semana cerrada de ejecución en nuestra comunidad diseñada específicamente para
               resetear tu metabolismo y balance hormonal, bajar esos primeros 2 o 3 kilos, reducir
               4 o 5 centímetros de cintura, eliminar la retención de líquidos y recuperar tu
@@ -64,7 +64,7 @@ export function ProductOffer() {
           </Reveal>
 
           <Reveal delay={0.1} className="relative mx-auto aspect-[3/4] w-full max-w-[18rem] lg:max-w-none">
-            <div className="absolute inset-0 rounded-[2rem] bg-azul-suave" />
+            <div className="absolute inset-0 rounded-[2rem] bg-tinte-azul" />
             <Image
               src="/photos/plan-cesar.webp"
               alt="César Villegas registrando la ficha del método C.A.D.D."
@@ -90,23 +90,23 @@ export function ProductOffer() {
               <div
                 className={`h-full rounded-3xl ${bg} p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] transition-transform duration-200 ease-out hover:-translate-y-1`}
               >
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-blanco-calido/70">
-                  <Icon size={24} weight="duotone" className="text-azul-oscuro" />
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-superficie/70">
+                  <Icon size={24} weight="duotone" className="text-azul-texto" />
                 </span>
-                <h3 className="mt-4 font-display text-xl text-texto-oscuro">{title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-texto-medio">{body}</p>
+                <h3 className="mt-4 font-display text-xl text-tinta">{title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-tinta-suave">{body}</p>
               </div>
             </Reveal>
           ))}
         </div>
 
         <Reveal delay={0.1} className="mt-10">
-          <div className="flex flex-col items-start gap-6 rounded-3xl border border-crema bg-blanco-calido p-6 shadow-[0_20px_44px_-24px_rgba(0,61,115,0.35)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="flex flex-col items-start gap-6 rounded-3xl border border-linea bg-tarjeta p-6 shadow-[0_20px_44px_-24px_rgba(0,61,115,0.35)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
             {/* items-center, no items-baseline: con baseline el $18 se alinea
                 a la primera linea del texto y queda montado hacia arriba. */}
             <div className="flex items-center gap-4">
-              <p className="font-display text-5xl leading-none text-azul">$18</p>
-              <p className="text-sm leading-snug text-texto-medio">
+              <p className="font-display text-5xl leading-none text-azul-texto">$18</p>
+              <p className="text-sm leading-snug text-tinta-suave">
                 acceso completo
                 <br />
                 pago único

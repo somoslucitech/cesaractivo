@@ -75,7 +75,7 @@ export function LeadForm({ onCreated }: LeadFormProps) {
       />
 
       {status === "error" && (
-        <p className="text-sm text-red-700" role="alert">
+        <p className="text-sm text-error" role="alert">
           No pudimos guardar tus datos. Intenta de nuevo.
         </p>
       )}
@@ -105,7 +105,7 @@ interface FieldProps {
 function Field({ id, label, value, onChange, placeholder, autoComplete, type = "text", error }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-texto-oscuro">
+      <label htmlFor={id} className="text-sm font-medium text-tinta">
         {label}
       </label>
       <input
@@ -117,10 +117,10 @@ function Field({ id, label, value, onChange, placeholder, autoComplete, type = "
         autoComplete={autoComplete}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${id}-error` : undefined}
-        className="rounded-xl border border-crema bg-blanco-calido px-4 py-2.5 text-texto-oscuro placeholder:text-texto-medio focus:border-azul focus:outline-none focus:ring-2 focus:ring-azul-suave"
+        className="rounded-xl border border-linea bg-superficie px-4 py-2.5 text-tinta placeholder:text-tinta-suave focus:border-azul-texto focus:outline-none focus:ring-2 focus:ring-tinte-azul"
       />
       {error && (
-        <p id={`${id}-error`} className="text-sm text-red-700">
+        <p id={`${id}-error`} className="text-sm text-error">
           {error}
         </p>
       )}
