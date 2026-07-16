@@ -39,13 +39,15 @@ export function Hero() {
         className="absolute inset-0 bg-azul-oscuro"
         style={shouldReduceMotion ? undefined : { scale: imageScale, y: imageY }}
       >
+        {/* Sin poster a proposito: mientras el video carga se ve el
+            bg-azul-oscuro del contenedor, no una foto distinta que luego
+            salta al primer frame. */}
         <video
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster="/photos/hero-bg.webp"
           className="h-full w-full object-cover"
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
@@ -76,10 +78,10 @@ export function Hero() {
       >
         <span className="inline-flex items-center rounded-xl bg-blanco-calido px-4 py-2">
           <Image
-            src="/logos/plan-detox.png"
+            src="/logos/plan-detox.webp"
             alt="Detox5"
-            width={480}
-            height={140}
+            width={815}
+            height={320}
             className="h-8 w-auto sm:h-9"
             priority
           />

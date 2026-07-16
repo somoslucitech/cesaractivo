@@ -31,9 +31,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Ojo: nada de h-full en <html>. Un height:100% fijo ahi rompe el scroll
+  // por anclas (#plan, #cesar...). Era un resto del scaffold de Next.js.
   return (
-    <html lang="es" className={`${spaceGrotesk.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-blanco-calido text-texto-oscuro">
+    <html lang="es" className={`${spaceGrotesk.variable} antialiased`}>
+      <body className="flex min-h-[100dvh] flex-col bg-blanco-calido text-texto-oscuro">
         <CheckoutProvider>{children}</CheckoutProvider>
       </body>
     </html>

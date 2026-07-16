@@ -48,10 +48,10 @@ export function Nav() {
           <div className="flex h-16 items-center justify-between gap-6 px-4 sm:px-5">
             <a href="#top" aria-label="Ir al inicio" className="shrink-0">
               <Image
-                src="/logos/cesar-activo-coach-mark.png"
+                src="/logos/cesar-activo-coach-mark.webp"
                 alt="César Activo Coach"
-                width={559}
-                height={344}
+                width={390}
+                height={240}
                 className="h-9 w-auto sm:h-10"
                 priority
               />
