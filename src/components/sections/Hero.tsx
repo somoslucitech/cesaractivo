@@ -48,7 +48,7 @@ export function Hero() {
         className="absolute inset-0 bg-azul-oscuro"
         style={shouldReduceMotion ? undefined : { scale: backgroundScale, y: backgroundY }}
       >
-        <VideoLoop nombre="video1" alt="Mujer cocinando verduras frescas en su cocina" preload="metadata" />
+        <VideoLoop nombre="video3" alt="Mujer preparando un plato con vegetales frescos" preload="metadata" />
         <div className="absolute inset-0 bg-gradient-to-br from-azul-oscuro/85 via-azul-oscuro/65 to-texto-oscuro/75" />
       </motion.div>
 

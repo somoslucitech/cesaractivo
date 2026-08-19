@@ -24,7 +24,7 @@ export function FinalCta() {
           de verdad. El scrim es fuerte a proposito, porque aqui mandan el
           titular y la lista de beneficios; el video solo aporta temperatura. */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <VideoLoop nombre="video3" alt="Mujer preparando un plato con vegetales frescos" />
+        <VideoLoop nombre="video1" alt="Mujer cocinando verduras frescas en su cocina" />
         <div className="absolute inset-0 bg-azul/85" />
       </div>
       <motion.div
