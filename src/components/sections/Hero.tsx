@@ -30,6 +30,8 @@ export function Hero() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  // Se mueve menos que el fondo: al ir mas lento se lee como primer plano.
+  const figuraY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
   return (
     <section
@@ -51,6 +53,43 @@ export function Hero() {
         <VideoLoop nombre="video3" alt="Mujer preparando un plato con vegetales frescos" preload="metadata" />
         <div className="absolute inset-0 bg-gradient-to-br from-azul-oscuro/85 via-azul-oscuro/65 to-texto-oscuro/75" />
       </motion.div>
+
+      {/* Cesar anclado al borde inferior, no centrado en vertical: el recorte
+          de la foto termina justo donde termina la seccion, asi que se lee
+          como encuadre deliberado y no como una figura cortada flotando. Solo
+          desde lg, que es donde hay ancho de sobra sin invadir el titular. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 hidden w-[34%] max-w-[26rem] lg:block xl:right-[max(0px,calc((100vw-80rem)/2))]"
+        style={shouldReduceMotion ? undefined : { y: figuraY }}
+      >
+        {/* Pool de luz frio detras: sobre un video en movimiento hace falta
+            separar la figura del fondo, y se separa con luz, no con sombra
+            negra. El tono sale del azul lavado de marca. */}
+        <div
+          className="absolute inset-0 -z-10 translate-y-6 scale-110"
+          style={{
+            background:
+              "radial-gradient(50% 42% at 52% 58%, rgba(230,240,248,0.22) 0%, rgba(0,61,115,0.28) 45%, transparent 72%)",
+          }}
+        />
+        <Image
+          src="/photos/cesar-retrato.webp"
+          alt=""
+          width={693}
+          height={1150}
+          sizes="(min-width: 1024px) 34vw, 0px"
+          className="h-auto w-full [filter:saturate(.82)_brightness(.93)_contrast(1.03)_drop-shadow(0_18px_44px_rgba(0,26,51,0.45))]"
+          priority
+        />
+      </motion.div>
+
+      {/* Asienta la base de la figura: sin este degradado el recorte termina
+          en un canto duro contra la seccion siguiente. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-azul-oscuro/70 to-transparent lg:block"
+      />
 
       <motion.div
         className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 sm:px-6"
@@ -82,33 +121,14 @@ export function Hero() {
         </p>
         <CtaButton />
 
-        {/* Chip de confianza. Sustituye al recorte de cuerpo entero que habia
-            aqui: aquella figura quedaba cortada a media pierna, sin suelo ni
-            contexto, y se leia como una calcomania pegada sobre el gradiente.
-            Ademas mostraba camiseta Nike, visera de running y cronometro, que
-            es justo lo que hacia parecer que esto vende entrenamiento.
-            Recortado al rostro se conserva la persona (que es lo que genera
-            confianza) y desaparece toda la indumentaria deportiva. */}
-        <div className="mt-2 flex items-center gap-3">
-          <span
-            role="img"
-            aria-label="César Villegas"
-            className="h-14 w-14 shrink-0 rounded-full bg-blanco-calido/10 ring-1 ring-blanco-calido/30"
-            // Encuadre calibrado sobre el rostro. El origen es un recorte con
-            // fondo transparente, asi que un encuadre mas abierto deja ver un
-            // creciente del fondo por el borde del circulo; con este zoom la
-            // ventana cae entera dentro de la cara y ademas queda fuera la
-            // visera.
-            style={{
-              backgroundImage: "url(/photos/cesar-retrato.webp)",
-              backgroundSize: "250% auto",
-              backgroundPosition: "60% 8%",
-              backgroundRepeat: "no-repeat",
-            }}
-          />
-          <span className="text-sm leading-tight text-blanco-calido/80">
-            <span className="block font-medium text-blanco-calido">César Villegas</span>
-            Coach de bienestar · 14 años acompañando mujeres
+        {/* Credencial en texto. Antes habia aqui un avatar con su cara, pero
+            desde que la figura vive a la derecha eran dos veces el mismo
+            retrato en el mismo viewport. */}
+        <div className="mt-1 flex items-center gap-3">
+          <span aria-hidden className="h-px w-8 shrink-0 bg-amarillo" />
+          <span className="text-sm text-blanco-calido/80">
+            <span className="font-medium text-blanco-calido">César Villegas</span> · Coach de
+            bienestar · 14 años acompañando mujeres
           </span>
         </div>
       </motion.div>

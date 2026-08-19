@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { CaretDown, CaretUp } from "@phosphor-icons/react";
+import { CaretDown } from "@phosphor-icons/react";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { PriceTag } from "@/components/checkout/PriceTag";
 import { DUR, EASE_SIGNATURE } from "@/lib/motion";
@@ -94,7 +94,7 @@ export function Faq() {
             return (
               <div
                 key={faq.question}
-                className={`rounded-[10px] border bg-tarjeta px-5 py-[18px] transition-colors duration-200 ${
+                className={`rounded-[10px] border bg-tarjeta px-5 py-[18px] transition-colors duration-[var(--dur-hover)] ${
                   isActive ? "border-azul/30 shadow-md" : "border-linea shadow-sm hover:border-azul/20"
                 }`}
               >
@@ -107,11 +107,21 @@ export function Faq() {
                   <span className="text-sm font-medium text-tinta sm:text-base">
                     {faq.question}
                   </span>
-                  {isActive ? (
-                    <CaretUp size={20} weight="bold" className="shrink-0 text-azul-texto" />
-                  ) : (
-                    <CaretDown size={20} weight="bold" className="shrink-0 text-tinta-suave" />
-                  )}
+                  {/* Un solo icono que rota, en vez de montar y desmontar dos
+                      componentes distintos: mas suave, mas barato, y la
+                      rotacion se puede interrumpir a mitad de camino. */}
+                  <motion.span
+                    aria-hidden
+                    className="shrink-0"
+                    animate={{ rotate: isActive ? 180 : 0 }}
+                    transition={{ duration: shouldReduceMotion ? 0 : DUR.quick, ease: EASE_SIGNATURE }}
+                  >
+                    <CaretDown
+                      size={20}
+                      weight="bold"
+                      className={isActive ? "text-azul-texto" : "text-tinta-suave"}
+                    />
+                  </motion.span>
                 </button>
                 {/* Alto animado con motion (mide "auto" en vez de interpolar
                     grid-template-rows). Animar la fila del grid recalcula

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { SelectorTema } from "./SelectorTema";
@@ -24,6 +24,7 @@ const NAV_LINKS = [
  * sobre el contenido claro, incluso antes de que corra el JS.
  */
 export function Nav() {
+  const shouldReduceMotion = useReducedMotion();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export function Nav() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded text-sm font-medium text-tinta transition-colors duration-200 hover:text-azul-texto focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-azul-texto"
+                  className="rounded text-sm font-medium text-tinta transition-colors duration-[var(--dur-hover)] hover:text-azul-texto focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-azul-texto"
                 >
                   {link.label}
                 </a>
@@ -115,7 +116,7 @@ export function Nav() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: DUR.backdrop, ease: EASE_SIGNATURE }}
+              transition={{ duration: shouldReduceMotion ? 0 : DUR.backdrop, ease: EASE_SIGNATURE }}
               className="absolute inset-x-0 top-full z-10 mt-2 overflow-hidden rounded-2xl border border-linea bg-tarjeta shadow-[0_16px_40px_-12px_rgba(0,61,115,0.45)] md:hidden"
             >
               <nav aria-label="Principal móvil" className="flex flex-col gap-1 p-4">

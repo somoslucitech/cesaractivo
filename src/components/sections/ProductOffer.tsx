@@ -99,7 +99,7 @@ export function ProductOffer() {
               className={span ?? ""}
             >
               <div
-                className={`h-full rounded-3xl ${bg} p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] transition-transform duration-200 ease-signature hover:-translate-y-1`}
+                className={`h-full rounded-3xl ${bg} p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] transition-transform duration-[var(--dur-hover)] ease-signature hover:-translate-y-1`}
               >
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-superficie/70">
                   <Icon size={24} weight="duotone" className="text-azul-texto" />

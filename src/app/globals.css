@@ -150,6 +150,13 @@ html {
      entradas y elementos en pantalla; MD3 accelerate para salidas. */
   --ease-signature: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  /* Espejo de DUR en src/lib/motion.ts. Tailwind v4 no tiene namespace de
+     duracion, asi que estos se consumen como duration-[var(--dur-hover)].
+     Si cambias uno, cambia el otro. */
+  --dur-hover: 90ms;
+  --dur-press: 140ms;
+  --dur-settle: 240ms;
 }
 
 /* La proporcion 60/30/10 del manual (blanco cálido/crema/azul suave · azul ·

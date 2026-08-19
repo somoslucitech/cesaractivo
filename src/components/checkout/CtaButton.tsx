@@ -35,7 +35,14 @@ export function CtaButton({ className = "", variant = "solid" }: CtaButtonProps)
       type="button"
       onClick={open}
       whileHover={shouldReduceMotion ? undefined : { scale: 1.03, y: -1 }}
-      whileTap={shouldReduceMotion ? undefined : { scale: 0.96, y: 0 }}
+      // El press lleva su propia transicion: DUR.press (140ms) frente a los
+      // 90ms del hover. Compartir una sola hacia que la pulsacion se sintiera
+      // igual de ligera que pasar el raton por encima.
+      whileTap={
+        shouldReduceMotion
+          ? undefined
+          : { scale: 0.96, y: 0, transition: { duration: DUR.press, ease: EASE_SIGNATURE } }
+      }
       transition={{ duration: DUR.hover, ease: EASE_SIGNATURE }}
       className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-8 py-4 font-semibold ${variants[variant]} ${className}`}
     >
