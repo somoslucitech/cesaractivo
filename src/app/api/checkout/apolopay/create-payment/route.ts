@@ -19,6 +19,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Lead no encontrado" }, { status: 404 });
   }
 
+  // ApoloPay solo liquida en USD (ver src/lib/pricing.ts). La UI ya oculta
+  // esta opcion cuando el lead eligio EUR; esto es el resguardo del lado
+  // del servidor para que no se cobre un monto sin correspondencia real.
+  if (lead.currency === "eur") {
+    return NextResponse.json(
+      { error: "El pago con criptomoneda solo está disponible en USD" },
+      { status: 400 },
+    );
+  }
+
   const { env } = await getCloudflareContext({ async: true });
   if (!env.APOLOPAY_SECRET_KEY || !env.APOLOPAY_PUBLIC_KEY) {
     return NextResponse.json(

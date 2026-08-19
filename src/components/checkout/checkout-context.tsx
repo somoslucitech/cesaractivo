@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { CheckoutModal } from "./CheckoutModal";
+import type { Currency } from "@/lib/pricing";
 
 type Step = "form" | "payment" | "success";
 
@@ -11,6 +12,11 @@ interface CheckoutContextValue {
   leadId: string | null;
   /** Nombre del formulario: lo usa Pago Movil para armar el mensaje de WhatsApp. */
   leadName: string;
+  /** Moneda elegida en el selector del nav. Vive aca (no en localStorage):
+   *  es una eleccion de la sesion de compra, no una preferencia durable
+   *  como el tema. */
+  currency: Currency;
+  setCurrency: (currency: Currency) => void;
   open: () => void;
   close: () => void;
   setStep: (step: Step) => void;
@@ -24,6 +30,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState<Step>("form");
   const [leadId, setLeadId] = useState<string | null>(null);
   const [leadName, setLeadName] = useState("");
+  const [currency, setCurrency] = useState<Currency>("usd");
 
   function open() {
     setStep("form");
@@ -43,7 +50,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
   return (
     <CheckoutContext.Provider
-      value={{ isOpen, step, leadId, leadName, open, close, setStep, setLead }}
+      value={{ isOpen, step, leadId, leadName, currency, setCurrency, open, close, setStep, setLead }}
     >
       {children}
       <CheckoutModal />

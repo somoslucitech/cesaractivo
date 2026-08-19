@@ -1,3 +1,5 @@
+import type { Currency } from "./pricing";
+
 export type PaymentMethod = "paypal" | "apolopay";
 export type PaymentStatus = "pending" | "paid" | "failed" | "expired";
 
@@ -6,7 +8,11 @@ export interface Lead {
   name: string;
   email: string;
   whatsapp: string;
+  /** Precio de referencia en USD, siempre poblado sin importar la moneda pagada. */
   amount_usd: number;
+  /** Monto en euros si currency es "eur"; null si el lead eligio USD. */
+  amount_eur: number | null;
+  currency: Currency;
   payment_method: PaymentMethod | null;
   payment_status: PaymentStatus;
   apolopay_process_id: string | null;

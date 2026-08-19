@@ -1,6 +1,10 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { Reveal } from "@/components/ui/Reveal";
+import { VideoLoop } from "@/components/ui/VideoLoop";
 
 const BENEFITS = [
   "Recupera tu vitalidad diaria",
@@ -12,9 +16,23 @@ const BENEFITS = [
 ];
 
 export function FinalCta() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden bg-azul py-24 text-blanco-calido sm:py-32">
-      <div className="pointer-events-none absolute -top-24 -right-16 h-[28rem] w-[28rem] rounded-full bg-azul-oscuro/50 blur-[120px]" />
+      {/* Cierre emocional: la compradora viendose a si misma frente a comida
+          de verdad. El scrim es fuerte a proposito, porque aqui mandan el
+          titular y la lista de beneficios; el video solo aporta temperatura. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <VideoLoop nombre="video3" alt="Mujer preparando un plato con vegetales frescos" />
+        <div className="absolute inset-0 bg-azul/85" />
+      </div>
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -right-16 h-[28rem] w-[28rem] rounded-full bg-azul-oscuro/50 blur-[120px]"
+        animate={shouldReduceMotion ? undefined : { scale: [1, 1.01, 1] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+      />
       <Reveal className="relative mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 text-center sm:px-6">
         <h2 className="font-display text-3xl leading-snug sm:text-4xl md:text-5xl">
           Tu salud de los próximos 10 años se decide hoy

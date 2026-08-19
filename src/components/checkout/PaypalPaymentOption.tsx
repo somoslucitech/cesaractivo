@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
+import { useCheckout } from "./checkout-context";
 
 declare global {
   interface Window {
@@ -19,6 +20,11 @@ interface PaypalPaymentOptionProps {
 type Status = "loading-config" | "ready" | "processing" | "error";
 
 export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionProps) {
+  // El lead ya quedo creado en esta moneda (ver LeadForm/api/leads); el
+  // SDK de PayPal exige que el query param "currency" coincida con la
+  // moneda de la orden que crea create-order, o el boton falla al pagar.
+  const { currency } = useCheckout();
+  const currencyCode = currency === "eur" ? "EUR" : "USD";
   const [clientId, setClientId] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("loading-config");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -103,7 +109,7 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
   return (
     <div>
       <Script
-        src={`https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture`}
+        src={`https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currencyCode}&intent=capture`}
         strategy="lazyOnload"
         onLoad={handleSdkReady}
         onReady={handleSdkReady}

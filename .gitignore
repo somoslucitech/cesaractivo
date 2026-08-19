@@ -44,3 +44,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Junctions a .agents/skills (fuente unica) - no duplicar en git
+.claude/skills/
+
+# Originales de la sesion de fotos (209 MB de PNG). Fuente, no build:
+# de aqui salen los .webp optimizados de public/photos.
+fotografias/

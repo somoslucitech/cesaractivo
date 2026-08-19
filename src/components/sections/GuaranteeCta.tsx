@@ -1,14 +1,24 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import { SealCheck } from "@phosphor-icons/react/dist/ssr";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function GuaranteeCta() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="bg-superficie-2 py-20 sm:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <Reveal>
           <div className="relative flex flex-col items-center gap-5 overflow-hidden rounded-[2.5rem] border border-amarillo/40 bg-tarjeta px-6 py-12 text-center shadow-[0_24px_50px_-20px_rgba(200,168,0,0.35)] sm:px-12">
-            <div className="pointer-events-none absolute -top-16 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-amarillo/15 blur-3xl" />
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute -top-16 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-amarillo/15 blur-3xl"
+              animate={shouldReduceMotion ? undefined : { scale: [1, 1.02, 1] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            />
             <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-tinte-amarillo">
               <SealCheck size={36} weight="duotone" className="text-azul-texto" />
             </span>

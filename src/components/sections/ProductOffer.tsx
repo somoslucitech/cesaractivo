@@ -1,14 +1,24 @@
 import {
   ClipboardText,
+  ForkKnife,
   FileMagnifyingGlass,
-  Barbell,
   ChatsCircle,
   VideoCamera,
+  PersonSimpleWalk,
 } from "@phosphor-icons/react/dist/ssr";
-import Image from "next/image";
 import { CtaButton } from "@/components/checkout/CtaButton";
+import { VideoLoop } from "@/components/ui/VideoLoop";
+import { PriceTag } from "@/components/checkout/PriceTag";
 import { Reveal } from "@/components/ui/Reveal";
+import { FOLLOW_THROUGH, STAGGER } from "@/lib/motion";
 
+/**
+ * Orden deliberado: la alimentacion abre la lista y el movimiento la cierra.
+ * Antes el icono de comida (ForkKnife) estaba en OtherServices y aqui dentro
+ * habia un Barbell, asi que la pieza central del producto se anunciaba con el
+ * simbolo de un gimnasio. La guia y la lista de compras van separadas porque
+ * son dos entregables distintos que el titulo anterior ya nombraba juntos.
+ */
 const INCLUSIONS = [
   {
     icon: ClipboardText,
@@ -18,16 +28,16 @@ const INCLUSIONS = [
     span: "sm:col-span-2",
   },
   {
-    icon: FileMagnifyingGlass,
-    title: "Guía y lista de compras",
-    body: "Qué buscar en el supermercado. Comida real y accesible, sin suplementos costosos.",
-    bg: "bg-superficie-2",
+    icon: ForkKnife,
+    title: "Qué vas a comer estos 7 días",
+    body: "La guía de comida real del método: cómo combinar alimentos cotidianos para desinflamar, sin batidos ni suplementos.",
+    bg: "bg-tinte-amarillo",
   },
   {
-    icon: Barbell,
-    title: "Rutinas adaptadas",
-    body: "Movilidad y fuerza según tu condición real, desde casa o al aire libre.",
-    bg: "bg-tinte-amarillo",
+    icon: FileMagnifyingGlass,
+    title: "Lista de compras",
+    body: "Qué buscar en el supermercado. Comida real y accesible, que consigues en tu mercado de siempre.",
+    bg: "bg-superficie-2",
   },
   {
     icon: ChatsCircle,
@@ -41,6 +51,13 @@ const INCLUSIONS = [
     body: "Sesión en vivo para despejar dudas antes de iniciar tu semana de acción.",
     bg: "bg-tinte-azul",
   },
+  {
+    icon: PersonSimpleWalk,
+    title: "Movimiento suave de apoyo",
+    body: "Movilidad adaptada a tu condición real, desde casa o al aire libre. Es el complemento del plan, no su centro: primero se sana la alimentación.",
+    bg: "bg-superficie-2",
+    span: "sm:col-span-2",
+  },
 ];
 
 export function ProductOffer() {
@@ -53,7 +70,7 @@ export function ProductOffer() {
               El programa
             </p>
             <h2 className="mt-3 font-display text-3xl text-tinta md:text-4xl">
-              Plan Detox5: consigue el cambio que buscas en solo 7 días
+              Plan Detox5: 7 días de comida real para reiniciar tu metabolismo
             </h2>
             <p className="mt-4 text-base text-tinta-suave sm:text-lg">
               Una semana cerrada de ejecución en nuestra comunidad diseñada específicamente para
@@ -63,19 +80,13 @@ export function ProductOffer() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.1} className="relative mx-auto aspect-[3/4] w-full max-w-[18rem] lg:max-w-none">
-            <div className="absolute inset-0 rounded-[2rem] bg-tinte-azul" />
-            <Image
-              src="/photos/plan-cesar.webp"
-              alt="César Villegas registrando la ficha del método C.A.D.D."
-              fill
-              sizes="(min-width: 1024px) 28vw, 18rem"
-              className="object-contain object-bottom"
-              style={{
-                maskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
-              }}
-            />
+          {/* Este hueco estaba reservado para fotografia de comida: ya no hace
+              falta el retrato del coach. Un bucle de alguien cocinando dice
+              "esto va de comer" mejor que cualquier titular. */}
+          <Reveal delay={FOLLOW_THROUGH} className="mx-auto w-full max-w-[22rem] lg:max-w-none">
+            <div className="aspect-[4/5] overflow-hidden rounded-[2rem] shadow-[0_20px_44px_-24px_rgba(0,61,115,0.45)]">
+              <VideoLoop nombre="video2" alt="Mujer picando verduras frescas sobre una tabla" />
+            </div>
           </Reveal>
         </div>
 
@@ -84,11 +95,11 @@ export function ProductOffer() {
             <Reveal
               key={title}
               as="div"
-              delay={index * 0.06}
+              delay={index * STAGGER}
               className={span ?? ""}
             >
               <div
-                className={`h-full rounded-3xl ${bg} p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] transition-transform duration-200 ease-out hover:-translate-y-1`}
+                className={`h-full rounded-3xl ${bg} p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] transition-transform duration-200 ease-signature hover:-translate-y-1`}
               >
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-superficie/70">
                   <Icon size={24} weight="duotone" className="text-azul-texto" />
@@ -100,12 +111,15 @@ export function ProductOffer() {
           ))}
         </div>
 
-        <Reveal delay={0.1} className="mt-10">
+        <Reveal delay={FOLLOW_THROUGH} className="mt-10">
           <div className="flex flex-col items-start gap-6 rounded-3xl border border-linea bg-tarjeta p-6 shadow-[0_20px_44px_-24px_rgba(0,61,115,0.35)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
-            {/* items-center, no items-baseline: con baseline el $18 se alinea
-                a la primera linea del texto y queda montado hacia arriba. */}
+            {/* items-center, no items-baseline: con baseline el precio se
+                alinea a la primera linea del texto y queda montado hacia
+                arriba. */}
             <div className="flex items-center gap-4">
-              <p className="font-display text-5xl leading-none text-azul-texto">$18</p>
+              <p className="font-display text-5xl leading-none text-azul-texto">
+                <PriceTag />
+              </p>
               <p className="text-sm leading-snug text-tinta-suave">
                 acceso completo
                 <br />

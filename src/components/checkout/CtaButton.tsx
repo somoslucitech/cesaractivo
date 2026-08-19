@@ -1,6 +1,8 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import { useCheckout } from "./checkout-context";
+import { DUR, EASE_SIGNATURE } from "@/lib/motion";
 
 export const CTA_LABEL = "Iniciar mi Detox5";
 
@@ -9,20 +11,35 @@ interface CtaButtonProps {
   variant?: "solid" | "outline";
 }
 
+/**
+ * Unico lugar de la pagina con acento Energetic: es el elemento que
+ * convierte, se repite 6 veces, y el skill de motion pide que la
+ * intensidad de la animacion sea proporcional a la importancia de la
+ * interaccion. Todo lo demas en la landing es Premium (sin overshoot);
+ * este boton sí lo tiene, apenas un 6% para que se sienta vivo sin
+ * volverse juguetón. Dos capas: la sombra (secundaria) se hunde bajo el
+ * boton al presionar, dandole peso fisico al gesto.
+ */
 export function CtaButton({ className = "", variant = "solid" }: CtaButtonProps) {
   const { open } = useCheckout();
+  const shouldReduceMotion = useReducedMotion();
 
-  const base =
-    "inline-flex items-center justify-center whitespace-nowrap rounded-full px-8 py-4 font-semibold transition-transform duration-150 ease-out active:scale-[0.97]";
   const variants: Record<string, string> = {
     // El amarillo siempre lleva texto oscuro, en ambos temas.
-    solid: "bg-amarillo text-texto-oscuro hover:bg-amarillo-oscuro",
+    solid: "bg-amarillo text-texto-oscuro hover:bg-amarillo-oscuro shadow-[0_10px_24px_-8px_rgba(200,168,0,0.55)]",
     outline: "border-2 border-azul-texto text-azul-texto hover:bg-tinte-azul",
   };
 
   return (
-    <button type="button" onClick={open} className={`${base} ${variants[variant]} ${className}`}>
+    <motion.button
+      type="button"
+      onClick={open}
+      whileHover={shouldReduceMotion ? undefined : { scale: 1.03, y: -1 }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.96, y: 0 }}
+      transition={{ duration: DUR.hover, ease: EASE_SIGNATURE }}
+      className={`inline-flex items-center justify-center whitespace-nowrap rounded-full px-8 py-4 font-semibold ${variants[variant]} ${className}`}
+    >
       {CTA_LABEL}
-    </button>
+    </motion.button>
   );
 }

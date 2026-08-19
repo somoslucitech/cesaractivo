@@ -1,5 +1,6 @@
 import { Lightning } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/ui/Reveal";
+import { FOLLOW_THROUGH, STAGGER } from "@/lib/motion";
 
 const DIFFERENTIATORS = [
   {
@@ -44,7 +45,7 @@ export function DifferentiationMatrix() {
 
         <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
           {DIFFERENTIATORS.map(({ n, title, body }, index) => (
-            <Reveal key={n} as="div" delay={index * 0.08} className="flex gap-5 border-t border-linea pt-6">
+            <Reveal key={n} as="div" delay={index * STAGGER} className="flex gap-5 border-t border-linea pt-6">
               <span className="font-display text-3xl leading-none text-acento">{n}</span>
               <div>
                 <h3 className="font-display text-lg text-tinta">{title}</h3>
@@ -54,7 +55,7 @@ export function DifferentiationMatrix() {
           ))}
         </div>
 
-        <Reveal delay={0.1} className="mt-8">
+        <Reveal delay={FOLLOW_THROUGH} className="mt-8">
           <div className="flex flex-col items-start gap-5 rounded-3xl bg-azul px-8 py-8 text-blanco-calido shadow-[0_20px_40px_-16px_rgba(0,61,115,0.5)] sm:flex-row sm:items-center sm:gap-6">
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blanco-calido/15">
               <Lightning size={28} weight="fill" className="text-amarillo" />

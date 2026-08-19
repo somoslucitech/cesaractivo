@@ -31,8 +31,8 @@ export function InternationalLogistics() {
 
             <div className="relative min-h-[20rem] bg-azul">
               <Image
-                src="/photos/logistics-cesar.webp"
-                alt="César Villegas listo para entrenar donde estés"
+                src="/photos/cesar-sentado.webp"
+                alt="César Villegas, que acompaña el plan de alimentación estés donde estés"
                 fill
                 sizes="(min-width: 1024px) 40vw, 90vw"
                 className="object-contain object-bottom"

@@ -13,3 +13,16 @@ export function pagoMovilMessage(name: string): string {
   const cleanName = name.trim();
   return `Hola mi nombre es ${cleanName}, estoy interesad@ en el plan Detox5`;
 }
+
+/** Zelle se coordina a mano por WhatsApp, igual que Pago Movil: no hay
+ *  procesamiento en la web, solo se arma el mensaje de contacto. */
+export function zelleMessage(name: string): string {
+  const cleanName = name.trim();
+  return `Hola mi nombre es ${cleanName}, quiero pagar el plan Detox5 por Zelle`;
+}
+
+/** Los otros programas (Escuela de Alimentacion, Team Puro Power) no
+ *  tienen checkout propio en la web: el interes se coordina por WhatsApp. */
+export function otroServicioMessage(nombreServicio: string): string {
+  return `Hola, quiero información sobre ${nombreServicio}`;
+}

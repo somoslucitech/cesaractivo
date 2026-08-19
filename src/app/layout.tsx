@@ -1,18 +1,65 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Newsreader, Inter } from "next/font/google";
 import { CheckoutProvider } from "@/components/checkout/checkout-context";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+/**
+ * Dos familias con roles distintos (pedido del cliente: que se note la
+ * jerarquia entre titulo, subtitulo y cuerpo, y que no se sienta generica).
+ *
+ * Newsreader es una serif editorial de contraste bajo y letra ancha para
+ * h1/h2/h3. Se eligio sobre Fraunces porque a igual cuerpo es bastante mas
+ * legible (aperturas mas abiertas), algo que pesa con un publico de 40 a 70
+ * anos, y porque al ser mas ancha el titular del hero cae en dos lineas en
+ * vez de tres.
+ *
+ * Inter cubre cuerpo, subtitulos y UI porque es extremadamente legible en
+ * texto largo y deja que el serif sea lo unico que aporte personalidad.
+ */
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  // Sin italic: no se usa cursiva en ninguna parte del proyecto, asi que
+  // cargarla solo anadiria peso a la descarga.
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
+/**
+ * TODO(cliente): confirmar el dominio definitivo. Se toma cesaractivo.com del
+ * TODO de wrangler.jsonc. metadataBase es obligatorio para que og:image salga
+ * como URL absoluta; con una URL relativa WhatsApp y Facebook no la resuelven.
+ */
+const SITE_URL = "https://cesaractivo.com";
+
 export const metadata: Metadata = {
-  title: "Detox5 | César Activo de Bienestar",
+  metadataBase: new URL(SITE_URL),
+  title: "Detox5 | Plan de alimentación de 7 días con César Activo",
   description:
-    "Rompe el estancamiento, desinflama tu cuerpo y recupera tu vitalidad en solo 7 días con el Plan Detox5 de César Activo.",
+    "7 días de comida real para desinflamar y reiniciar tu metabolismo, para mujeres de 40 a 70. Sin pasar hambre, sin suplementos y con acompañamiento diario por WhatsApp.",
+  // El trafico llega por WhatsApp e Instagram y hasta ahora los enlaces se
+  // compartian sin vista previa. La imagen la genera src/app/opengraph-image.tsx.
+  openGraph: {
+    type: "website",
+    locale: "es_VE",
+    url: SITE_URL,
+    siteName: "César Activo",
+    title: "Detox5 | 7 días de comida real para reiniciar tu metabolismo",
+    description:
+      "Plan de alimentación de 7 días para mujeres de 40 a 70. Comida que consigues en tu mercado, sin pasar hambre ni suplementos, con acompañamiento diario.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Detox5 | 7 días de comida real para reiniciar tu metabolismo",
+    description:
+      "Plan de alimentación de 7 días para mujeres de 40 a 70, con acompañamiento diario por WhatsApp.",
+  },
   icons: {
     icon: [
       { url: "/favicon/favicon.ico", sizes: "any" },
@@ -45,7 +92,11 @@ export default function RootLayout({
     // suppressHydrationWarning: el script de abajo escribe data-theme antes
     // de que React hidrate, asi que el atributo no coincide con el HTML del
     // servidor. Es esperado.
-    <html lang="es" className={`${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
+    <html
+      lang="es"
+      className={`${newsreader.variable} ${inter.variable} antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
       </head>

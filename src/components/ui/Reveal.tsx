@@ -2,8 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
-
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+import { DUR, EASE_SIGNATURE } from "@/lib/motion";
 
 interface RevealProps {
   children: ReactNode;
@@ -16,8 +15,9 @@ interface RevealProps {
 
 /**
  * Entrada por scroll reutilizable: fade + subida suave, una sola vez,
- * respetando prefers-reduced-motion. Mantiene la misma curva y ritmo en
- * toda la pagina para que las secciones se sientan de un mismo sistema.
+ * respetando prefers-reduced-motion. Usa la curva y duracion Premium
+ * (src/lib/motion.ts) para que todas las secciones se sientan de un mismo
+ * sistema de movimiento, igual que ya comparten el sistema de color.
  */
 export function Reveal({ children, className, delay = 0, y = 24, as = "div" }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -28,7 +28,7 @@ export function Reveal({ children, className, delay = 0, y = 24, as = "div" }: R
       initial={shouldReduceMotion ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, delay, ease: EASE_OUT }}
+      transition={{ duration: DUR.standard, delay, ease: EASE_SIGNATURE }}
       className={className}
     >
       {children}

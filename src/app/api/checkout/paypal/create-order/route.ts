@@ -27,13 +27,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const amount = lead.currency === "eur" && lead.amount_eur != null ? lead.amount_eur : lead.amount_usd;
+  const currencyCode = lead.currency === "eur" ? "EUR" : "USD";
+
   const { orderId } = await createPaypalOrder(
     {
       clientId: env.PAYPAL_CLIENT_ID,
       clientSecret: env.PAYPAL_CLIENT_SECRET,
       environment: env.PAYPAL_ENV ?? "sandbox",
     },
-    lead.amount_usd,
+    amount,
+    currencyCode,
     lead.id,
   );
 

@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { InstagramReelEmbed } from "./InstagramReelEmbed";
 import { Reveal } from "@/components/ui/Reveal";
+import { STAGGER } from "@/lib/motion";
 
 const STORIES = [
   {
@@ -44,7 +45,7 @@ export function SuccessStories() {
             <Reveal
               key={story.name}
               as="div"
-              delay={index * 0.1}
+              delay={index * STAGGER}
               className="flex flex-col overflow-hidden rounded-3xl border border-linea bg-tarjeta shadow-[0_18px_40px_-24px_rgba(0,61,115,0.35)]"
             >
               <div className="flex flex-col gap-2 p-6">
@@ -71,6 +72,19 @@ export function SuccessStories() {
             </Reveal>
           ))}
         </div>
+
+        {/* Uno de los testimonios menciona el retiro de una medicacion para la
+            hipertension. Sin este descargo la pagina hace una promesa de
+            resultado medico, que ademas es motivo de rechazo en las politicas
+            de publicidad de Meta, de donde viene el trafico. */}
+        <Reveal className="mt-8">
+          <p className="text-xs leading-relaxed text-tinta-suave">
+            Los resultados son individuales y dependen del punto de partida y del compromiso de
+            cada persona. El Plan Detox5 es un acompañamiento nutricional y no sustituye la
+            indicación de tu médico: no suspendas ni modifiques ningún tratamiento sin
+            consultarlo con él.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

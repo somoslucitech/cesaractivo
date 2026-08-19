@@ -1,12 +1,29 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import { Quotes } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ParadigmShift() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden bg-azul-oscuro py-24 text-blanco-calido sm:py-32">
-      {/* Glow radial de marca para dar profundidad al fondo solido. */}
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-azul/40 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-40 right-0 h-[28rem] w-[28rem] rounded-full bg-amarillo/10 blur-[120px]" />
+      {/* Glow radial de marca: capa ambient, respira muy lento (background
+          element: 0.99-1.01, 4s/ciclo) para que el fondo tenga vida sin
+          competir con el texto. Amplitud minima a proposito. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-azul/40 blur-[120px]"
+        animate={shouldReduceMotion ? undefined : { scale: [1, 1.01, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 right-0 h-[28rem] w-[28rem] rounded-full bg-amarillo/10 blur-[120px]"
+        animate={shouldReduceMotion ? undefined : { scale: [1, 1.01, 1] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      />
 
       <Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
         <Quotes size={56} weight="fill" className="mx-auto mb-6 text-amarillo" />

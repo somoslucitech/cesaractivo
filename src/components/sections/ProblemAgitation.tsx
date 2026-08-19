@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { HeartStraight } from "@phosphor-icons/react/dist/ssr";
+import { DUR, EASE_SIGNATURE, FOLLOW_THROUGH, STAGGER } from "@/lib/motion";
 
 const PAIN_POINTS = [
   "Despertar cansada, salir cansada y regresar a casa cansada.",
@@ -11,11 +12,28 @@ const PAIN_POINTS = [
   "Depender de medicamentos para la hipertensión y la diabetes.",
 ];
 
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+/**
+ * Contenedor del listado: dispara la entrada UNA vez (el propio ul) y
+ * reparte el stagger entre los hijos con staggerChildren. Antes cada <li>
+ * tenia su propio whileInView + un delay acumulado a mano (index * 0.1),
+ * asi que el ultimo punto esperaba 1.15s desde que entraba en pantalla y,
+ * si el scroll era lento, el trigger de cada item disparaba en momentos
+ * distintos en vez de un solo gesto coordinado. Con staggerChildren el
+ * presupuesto total queda acotado (5 items * 0.08s = 0.4s, bajo el techo
+ * de 500ms) y todos comparten el mismo trigger.
+ */
+const listVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: STAGGER } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { duration: DUR.standard, ease: EASE_SIGNATURE } },
+};
 
 export function ProblemAgitation() {
   const shouldReduceMotion = useReducedMotion();
-  const desireDelay = 0.2 + PAIN_POINTS.length * 0.1 + 0.15;
 
   return (
     <section className="bg-superficie-2 py-24 sm:py-32">
@@ -24,7 +42,7 @@ export function ProblemAgitation() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, ease: EASE_OUT }}
+          transition={{ duration: DUR.standard, ease: EASE_SIGNATURE }}
           className="max-w-2xl font-display text-3xl text-tinta md:text-4xl"
         >
           ¿Sientes que por más ejercicio que haces, tu cuerpo simplemente no responde?
@@ -33,7 +51,7 @@ export function ProblemAgitation() {
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, delay: 0.08, ease: EASE_OUT }}
+          transition={{ duration: DUR.standard, delay: STAGGER, ease: EASE_SIGNATURE }}
           className="mt-4 max-w-2xl text-base text-tinta-suave sm:text-lg"
         >
           Con los años las reglas del juego cambian. El estrés, los desarreglos hormonales y
@@ -41,53 +59,52 @@ export function ProblemAgitation() {
           voluntad, es un organismo inflamado.
         </motion.p>
 
-        <ul className="mt-10 flex flex-col border-t border-linea">
-          {PAIN_POINTS.map((text, index) => {
-            const rowDelay = 0.2 + index * 0.1;
-            return (
-              <motion.li
-                key={text}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ duration: 0.5, delay: rowDelay, ease: EASE_OUT }}
-                className="flex items-start gap-4 border-b border-linea py-6"
-              >
-                <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-azul" />
-                <p className="font-display text-xl leading-snug text-tinta sm:text-2xl">
-                  {text}
-                </p>
-              </motion.li>
-            );
-          })}
-        </ul>
+        <motion.ul
+          initial={shouldReduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={listVariants}
+          className="mt-10 flex flex-col border-t border-linea"
+        >
+          {PAIN_POINTS.map((text) => (
+            <motion.li
+              key={text}
+              variants={itemVariants}
+              className="flex items-start gap-4 border-b border-linea py-6"
+            >
+              <span className="mt-3 h-2 w-2 shrink-0 rounded-full bg-azul" />
+              <p className="font-display text-xl leading-snug text-tinta sm:text-2xl">
+                {text}
+              </p>
+            </motion.li>
+          ))}
+        </motion.ul>
 
+        {/* Bloque de resolucion: gesto propio con trigger independiente,
+            no delays acumulados sobre el listado de arriba. El corazon
+            llega como follow-through (offset FOLLOW_THROUGH) del bloque,
+            sin overshoot: aqui la identidad es Premium, no Energetic. */}
         <motion.p
           initial={shouldReduceMotion ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.4, delay: desireDelay, ease: EASE_OUT }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: DUR.quick, ease: EASE_SIGNATURE }}
           className="mt-8 text-sm text-tinta-suave"
         >
           Y en el fondo:
         </motion.p>
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.5, delay: desireDelay + 0.1, ease: EASE_OUT }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: DUR.standard, delay: STAGGER, ease: EASE_SIGNATURE }}
           className="mt-3 flex items-center gap-4 rounded-2xl border-l-4 border-amarillo bg-tinte-amarillo px-6 py-5"
         >
           <motion.span
-            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.4 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.85 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{
-              delay: desireDelay + 0.3,
-              type: "spring",
-              stiffness: 300,
-              damping: 14,
-            }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: DUR.quick, delay: STAGGER + FOLLOW_THROUGH, ease: EASE_SIGNATURE }}
             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amarillo"
           >
             <HeartStraight size={24} weight="duotone" className="text-texto-oscuro" />

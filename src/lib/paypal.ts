@@ -30,7 +30,8 @@ async function getAccessToken(creds: PaypalCredentials): Promise<string> {
 
 export async function createPaypalOrder(
   creds: PaypalCredentials,
-  amountUsd: number,
+  amount: number,
+  currencyCode: "USD" | "EUR",
   leadId: string,
 ): Promise<{ orderId: string }> {
   const accessToken = await getAccessToken(creds);
@@ -48,8 +49,8 @@ export async function createPaypalOrder(
           custom_id: leadId,
           description: "Plan Detox5 - César Activo",
           amount: {
-            currency_code: "USD",
-            value: amountUsd.toFixed(2),
+            currency_code: currencyCode,
+            value: amount.toFixed(2),
           },
         },
       ],

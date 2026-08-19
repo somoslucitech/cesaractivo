@@ -5,10 +5,12 @@ import { Hero } from "@/components/sections/Hero";
 import { ProblemAgitation } from "@/components/sections/ProblemAgitation";
 import { ParadigmShift } from "@/components/sections/ParadigmShift";
 import { ProductOffer } from "@/components/sections/ProductOffer";
+import { KeyStats } from "@/components/sections/KeyStats";
 import { SuccessStories } from "@/components/sections/SuccessStories";
 import { DifferentiationMatrix } from "@/components/sections/DifferentiationMatrix";
 import { InternationalLogistics } from "@/components/sections/InternationalLogistics";
 import { CoachBio } from "@/components/sections/CoachBio";
+import { OtherServices } from "@/components/sections/OtherServices";
 import { GuaranteeCta } from "@/components/sections/GuaranteeCta";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -22,10 +24,12 @@ export default function Home() {
         <ProblemAgitation />
         <ParadigmShift />
         <ProductOffer />
+        <KeyStats />
         <SuccessStories />
         <DifferentiationMatrix />
         <InternationalLogistics />
         <CoachBio />
+        <OtherServices />
         <GuaranteeCta />
         <Faq />
         <FinalCta />

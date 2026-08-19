@@ -137,13 +137,19 @@ html {
   --color-acento: var(--color-acento);
   --color-error: var(--color-error);
 
-  /* Una sola familia tipográfica (Space Grotesk) para títulos y cuerpo,
-     con peso para dar jerarquía en vez de mezclar familias. */
-  --font-display: var(--font-space-grotesk);
-  --font-body: var(--font-space-grotesk);
+  /* Dos familias con roles distintos: Newsreader (serif editorial) para
+     titulos y Inter (sans muy legible) para subtitulos, cuerpo y UI. El
+     contraste entre ambas es lo que separa titulo de subtitulo de cuerpo,
+     no solo el tamano. Pedido del cliente: tipografia mas amigable, menos
+     generica, con jerarquia clara. */
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-inter);
 
-  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Identidad de movimiento (ver src/lib/motion.ts, fuente de la verdad
+     para las mismas curvas en motion/react). Premium: MD3 standard para
+     entradas y elementos en pantalla; MD3 accelerate para salidas. */
+  --ease-signature: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
 }
 
 /* La proporcion 60/30/10 del manual (blanco cálido/crema/azul suave · azul ·
@@ -160,8 +166,8 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 700;
+  font-family: var(--font-display), serif;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 

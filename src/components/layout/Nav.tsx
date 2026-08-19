@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { SelectorTema } from "./SelectorTema";
+import { SelectorMoneda } from "./SelectorMoneda";
+import { DUR, EASE_SIGNATURE } from "@/lib/motion";
 
 const NAV_LINKS = [
   { href: "#plan", label: "El plan" },
@@ -79,7 +81,8 @@ export function Nav() {
                 traen `inline-flex` en sus clases base y Tailwind resuelve el
                 choque por orden en el CSS, no por orden en el atributo. El
                 `inline-flex` le ganaba a `hidden` y se desbordaban en movil. */}
-            <div className="hidden shrink-0 md:block">
+            <div className="hidden shrink-0 items-center gap-2 md:flex">
+              <SelectorMoneda />
               <SelectorTema />
             </div>
 
@@ -93,7 +96,7 @@ export function Nav() {
               aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMenuOpen}
               aria-controls="menu-mobile"
-              className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-tinta transition-transform duration-150 ease-out active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azul-texto md:hidden"
+              className="inline-flex shrink-0 items-center justify-center rounded-full p-2 text-tinta transition-transform duration-150 ease-signature active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azul-texto md:hidden"
             >
               {isMenuOpen ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
             </button>
@@ -112,7 +115,7 @@ export function Nav() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: DUR.backdrop, ease: EASE_SIGNATURE }}
               className="absolute inset-x-0 top-full z-10 mt-2 overflow-hidden rounded-2xl border border-linea bg-tarjeta shadow-[0_16px_40px_-12px_rgba(0,61,115,0.45)] md:hidden"
             >
               <nav aria-label="Principal móvil" className="flex flex-col gap-1 p-4">
@@ -128,7 +131,8 @@ export function Nav() {
                 ))}
                 <CtaButton className="mt-2 w-full justify-center" />
 
-                <div className="mt-3 flex justify-center">
+                <div className="mt-3 flex justify-center gap-2">
+                  <SelectorMoneda />
                   <SelectorTema />
                 </div>
               </nav>

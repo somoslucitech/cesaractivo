@@ -2,19 +2,21 @@
 
 import { useState, type FormEvent } from "react";
 import { leadSchema } from "@/lib/schemas";
+import { useCheckout } from "./checkout-context";
 
 interface LeadFormProps {
   onCreated: (lead: { id: string; name: string }) => void;
 }
 
 export function LeadForm({ onCreated }: LeadFormProps) {
+  const { currency } = useCheckout();
   const [values, setValues] = useState({ name: "", email: "", whatsapp: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    const parsed = leadSchema.safeParse(values);
+    const parsed = leadSchema.safeParse({ ...values, currency });
 
     if (!parsed.success) {
       const fieldErrors: Record<string, string> = {};
@@ -83,7 +85,7 @@ export function LeadForm({ onCreated }: LeadFormProps) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-2 rounded-full bg-azul px-6 py-3 font-semibold text-blanco-calido transition-transform duration-150 ease-out active:scale-[0.97] disabled:opacity-60"
+        className="mt-2 rounded-full bg-azul px-6 py-3 font-semibold text-blanco-calido transition-transform duration-150 ease-signature active:scale-[0.97] disabled:opacity-60"
       >
         {status === "submitting" ? "Guardando..." : "Continuar al pago"}
       </button>

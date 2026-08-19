@@ -1,26 +1,28 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Lead } from "./types";
+import { PRICE_EUR, PRICE_USD, type Currency } from "./pricing";
 
 async function getDb() {
   const { env } = await getCloudflareContext({ async: true });
   return env.DB;
 }
 
-export const DETOX5_AMOUNT_USD = 18;
-
 export async function createLead(input: {
   name: string;
   email: string;
   whatsapp: string;
+  currency: Currency;
 }): Promise<Lead> {
   const db = await getDb();
   const id = crypto.randomUUID();
+  const amountEur = input.currency === "eur" ? PRICE_EUR : null;
 
   await db
     .prepare(
-      `INSERT INTO leads (id, name, email, whatsapp, amount_usd) VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO leads (id, name, email, whatsapp, amount_usd, amount_eur, currency)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
     )
-    .bind(id, input.name, input.email, input.whatsapp, DETOX5_AMOUNT_USD)
+    .bind(id, input.name, input.email, input.whatsapp, PRICE_USD, amountEur, input.currency)
     .run();
 
   const lead = await db

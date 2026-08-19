@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const currencySchema = z.enum(["usd", "eur"]);
+
 export const leadSchema = z.object({
   name: z.string().trim().min(2, "Ingresa tu nombre completo").max(120),
   email: z.string().trim().email("Ingresa un email válido").max(180),
@@ -9,6 +11,7 @@ export const leadSchema = z.object({
     .min(7, "Ingresa un número de WhatsApp válido")
     .max(20)
     .regex(/^\+?[0-9\s-]+$/, "Solo números, espacios y +"),
+  currency: currencySchema.default("usd"),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;

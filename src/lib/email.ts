@@ -13,6 +13,10 @@ export async function notifyCoachNewPaidLead(
   const methodLabel = lead.payment_method
     ? (PAYMENT_METHOD_LABEL[lead.payment_method] ?? lead.payment_method)
     : "desconocido";
+  const montoLabel =
+    lead.currency === "eur" && lead.amount_eur != null
+      ? `€${lead.amount_eur}`
+      : `$${lead.amount_usd}`;
 
   await email.send({
     to: toAddress,
@@ -24,7 +28,7 @@ export async function notifyCoachNewPaidLead(
       <p><strong>Email:</strong> ${lead.email}</p>
       <p><strong>WhatsApp:</strong> ${lead.whatsapp}</p>
       <p><strong>Método de pago:</strong> ${methodLabel}</p>
-      <p><strong>Monto:</strong> $${lead.amount_usd}</p>
+      <p><strong>Monto:</strong> ${montoLabel}</p>
       <p><strong>Fecha de pago:</strong> ${lead.paid_at ?? "N/D"}</p>
     `,
     text: [
@@ -33,7 +37,7 @@ export async function notifyCoachNewPaidLead(
       `Email: ${lead.email}`,
       `WhatsApp: ${lead.whatsapp}`,
       `Método de pago: ${methodLabel}`,
-      `Monto: $${lead.amount_usd}`,
+      `Monto: ${montoLabel}`,
       `Fecha de pago: ${lead.paid_at ?? "N/D"}`,
     ].join("\n"),
   });
