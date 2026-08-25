@@ -4,8 +4,9 @@ import {
   FileMagnifyingGlass,
   ChatsCircle,
   VideoCamera,
-  PersonSimpleWalk,
+  Timer,
 } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { VideoLoop } from "@/components/ui/VideoLoop";
 import { PriceTag } from "@/components/checkout/PriceTag";
@@ -13,7 +14,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { FOLLOW_THROUGH, STAGGER } from "@/lib/motion";
 
 /**
- * Orden deliberado: la alimentacion abre la lista y el movimiento la cierra.
+ * Las cinco tarjetas son alimentacion y acompanamiento. El movimiento ya no
+ * esta aqui dentro: tiene bloque propio debajo, con foto.
  * Antes el icono de comida (ForkKnife) estaba en OtherServices y aqui dentro
  * habia un Barbell, asi que la pieza central del producto se anunciaba con el
  * simbolo de un gimnasio. La guia y la lista de compras van separadas porque
@@ -50,13 +52,6 @@ const INCLUSIONS = [
     title: "Live dominical de arranque",
     body: "Sesión en vivo para despejar dudas antes de iniciar tu semana de acción.",
     bg: "bg-tinte-azul",
-  },
-  {
-    icon: PersonSimpleWalk,
-    title: "Movimiento suave de apoyo",
-    body: "Movilidad adaptada a tu condición real, desde casa o al aire libre. Es el complemento del plan, no su centro: primero se sana la alimentación.",
-    bg: "bg-superficie-2",
-    span: "sm:col-span-2",
   },
 ];
 
@@ -110,6 +105,43 @@ export function ProductOffer() {
             </Reveal>
           ))}
         </div>
+
+        {/* El movimiento sale de la rejilla y tiene bloque propio. Dentro de
+            una tarjeta mas era una linea de texto que nadie leia; el cliente
+            pedia que el ejercicio se transmitiera, y aqui se transmite sin
+            competir con la alimentacion, porque llega despues de las cinco
+            tarjetas de comida y acompanamiento.
+            El cronometro por fin encaja: en el hero significaba "entrenador
+            personal", pero en un bloque que habla de rutinas es el objeto
+            correcto. */}
+        <Reveal delay={FOLLOW_THROUGH} className="mt-4">
+          <div className="grid grid-cols-1 items-center gap-6 overflow-hidden rounded-3xl bg-tinte-azul p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-4 lg:py-0 lg:pr-0">
+            <div className="lg:py-8">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-superficie/70">
+                <Timer size={24} weight="duotone" className="text-azul-texto" />
+              </span>
+              <h3 className="mt-4 font-display text-2xl text-tinta">
+                Y el movimiento que tu cuerpo sí puede sostener
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-tinta-suave sm:text-base">
+                Cada día suma una rutina corta de movilidad y activación, ajustada a tu edad y a
+                tu condición real. Desde casa o al aire libre, sin equipos y sin impacto. No
+                sustituye al plan de alimentación: lo acompaña, y es así como el cambio se
+                sostiene más allá de los 7 días.
+              </p>
+            </div>
+
+            <div className="relative mx-auto h-56 w-full max-w-[15rem] sm:h-64 lg:mx-0 lg:h-72 lg:max-w-none">
+              <Image
+                src="/photos/hero-cesar.webp"
+                alt="César Villegas con un cronómetro, marcando el ritmo de la rutina"
+                fill
+                sizes="(min-width: 1024px) 30vw, 15rem"
+                className="object-contain object-bottom"
+              />
+            </div>
+          </div>
+        </Reveal>
 
         <Reveal delay={FOLLOW_THROUGH} className="mt-10">
           <div className="flex flex-col items-start gap-6 rounded-3xl border border-linea bg-tarjeta p-6 shadow-[0_20px_44px_-24px_rgba(0,61,115,0.35)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
