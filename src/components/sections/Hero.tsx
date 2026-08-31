@@ -7,15 +7,17 @@ import { CtaButton } from "@/components/checkout/CtaButton";
 import { VideoLoop } from "@/components/ui/VideoLoop";
 
 /**
- * Zoom Parallax Hero. El fondo es el gradiente de marca animado
- * (.detox5-animated-gradient, definido en globals.css) y no un video: el
- * video anterior mostraba a una persona entrenando, lo que hacia leer la
- * pagina como un programa de entrenamiento cuando lo que se vende es un
- * plan de alimentacion. De paso desaparecen 6.3 MB del LCP.
+ * Zoom Parallax Hero. El fondo es un bucle de cocina con comida real. El
+ * video original mostraba a una persona entrenando y hacia leer la pagina
+ * como un programa de entrenamiento, que era justo el problema a resolver.
  *
- * El scrim cumple doble funcion: garantiza el contraste del texto blanco
- * sobre el gradiente y amortigua el movimiento de los blobs, que a pantalla
- * completa distraeria de la lectura.
+ * Cesar vuelve con el cronometro por peticion del cliente, que veia la
+ * pagina demasiado volcada hacia la comida. El equilibrio se sostiene por
+ * reparto: el fondo, el H1 y el descriptor hablan de alimentacion, y la
+ * figura aporta la parte de ejercicio sin ocupar el centro.
+ *
+ * El scrim en degradado asegura el contraste del texto blanco sin apagar la
+ * comida del lado derecho.
  */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -60,7 +62,7 @@ export function Hero() {
           desde lg, que es donde hay ancho de sobra sin invadir el titular. */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 hidden w-[34%] max-w-[26rem] lg:block xl:right-[max(0px,calc((100vw-80rem)/2))]"
+        className="pointer-events-none absolute bottom-0 right-0 hidden w-[26%] max-w-[23rem] lg:block xl:right-[max(0px,calc((100vw-80rem)/2))]"
         style={shouldReduceMotion ? undefined : { y: figuraY }}
       >
         {/* Pool de luz frio detras: sobre un video en movimiento hace falta
@@ -74,11 +76,11 @@ export function Hero() {
           }}
         />
         <Image
-          src="/photos/cesar-retrato.webp"
+          src="/photos/hero-cesar.webp"
           alt=""
-          width={693}
-          height={1150}
-          sizes="(min-width: 1024px) 34vw, 0px"
+          width={745}
+          height={1400}
+          sizes="(min-width: 1024px) 26vw, 0px"
           className="h-auto w-full [filter:saturate(.82)_brightness(.93)_contrast(1.03)_drop-shadow(0_18px_44px_rgba(0,26,51,0.45))]"
           priority
         />

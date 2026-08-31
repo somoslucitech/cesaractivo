@@ -110,10 +110,7 @@ export function ProductOffer() {
             una tarjeta mas era una linea de texto que nadie leia; el cliente
             pedia que el ejercicio se transmitiera, y aqui se transmite sin
             competir con la alimentacion, porque llega despues de las cinco
-            tarjetas de comida y acompanamiento.
-            El cronometro por fin encaja: en el hero significaba "entrenador
-            personal", pero en un bloque que habla de rutinas es el objeto
-            correcto. */}
+            tarjetas de comida y acompanamiento. */}
         <Reveal delay={FOLLOW_THROUGH} className="mt-4">
           <div className="grid grid-cols-1 items-center gap-6 overflow-hidden rounded-3xl bg-tinte-azul p-6 shadow-[0_16px_36px_-24px_rgba(0,61,115,0.4)] sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-4 lg:py-0 lg:pr-0">
             <div className="lg:py-8">
@@ -133,8 +130,8 @@ export function ProductOffer() {
 
             <div className="relative mx-auto h-56 w-full max-w-[15rem] sm:h-64 lg:mx-0 lg:h-72 lg:max-w-none">
               <Image
-                src="/photos/hero-cesar.webp"
-                alt="César Villegas con un cronómetro, marcando el ritmo de la rutina"
+                src="/photos/cesar-retrato.webp"
+                alt="César Villegas, coach de bienestar"
                 fill
                 sizes="(min-width: 1024px) 30vw, 15rem"
                 className="object-contain object-bottom"
