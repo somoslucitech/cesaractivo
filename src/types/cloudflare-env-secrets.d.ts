@@ -17,5 +17,7 @@ declare global {
     PAYPAL_ENV?: "sandbox" | "live";
     COACH_NOTIFY_EMAIL?: string;
     COACH_FROM_EMAIL?: string;
+    /** API key de Resend. Reemplaza al binding nativo EMAIL de Cloudflare. */
+    RESEND_API_KEY?: string;
   }
 }

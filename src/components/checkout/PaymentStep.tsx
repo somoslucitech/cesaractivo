@@ -1,27 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { WhatsappLogo } from "@phosphor-icons/react";
 import { PaypalPaymentOption } from "./PaypalPaymentOption";
 import { useCheckout } from "./checkout-context";
 import { pagoMovilMessage, whatsappUrl, zelleMessage } from "@/lib/contact";
-import { CURRENCY_LABEL, formatPrice } from "@/lib/pricing";
+import { formatPrice } from "@/lib/pricing";
 
-// @apolopay-sdk/ui registra un custom element (Lit/HTMLElement) al cargar
-// el módulo. HTMLElement no existe en el runtime SSR, así que este
-// componente solo puede importarse en cliente.
-const ApoloPayPaymentOption = dynamic(
-  () => import("./ApoloPayPaymentOption").then((mod) => mod.ApoloPayPaymentOption),
-  {
-    ssr: false,
-    loading: () => (
-      <p className="text-sm text-tinta-suave">Cargando pago con criptomoneda...</p>
-    ),
-  },
-);
-
-type Method = "paypal" | "apolopay" | null;
+type Method = "paypal" | null;
 
 interface PaymentStepProps {
   leadId: string;
@@ -30,9 +16,8 @@ interface PaymentStepProps {
 }
 
 export function PaymentStep({ leadId, leadName, onSuccess }: PaymentStepProps) {
-  const { currency } = useCheckout();
+  const { precios } = useCheckout();
   const [method, setMethod] = useState<Method>(null);
-  const cryptoDisabled = currency === "eur";
 
   const optionBase =
     "rounded-2xl border-2 px-4 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azul-texto";
@@ -42,7 +27,12 @@ export function PaymentStep({ leadId, leadName, onSuccess }: PaymentStepProps) {
       <div>
         <p className="text-sm text-tinta-suave">Total a pagar</p>
         <p className="font-display text-4xl text-azul-texto">
-          {formatPrice(currency)} {CURRENCY_LABEL[currency]}
+          {precios.enOferta && (
+            <span className="mr-2 align-middle text-xl font-normal text-tinta-suave line-through">
+              {formatPrice(precios.normal, precios.currency)}
+            </span>
+          )}
+          {formatPrice(precios.efectivo, precios.currency)} {precios.currency.toUpperCase()}
         </p>
       </div>
 
@@ -57,22 +47,6 @@ export function PaymentStep({ leadId, leadName, onSuccess }: PaymentStepProps) {
         >
           <p className="font-semibold text-tinta">Tarjeta de crédito</p>
           <p className="text-sm text-tinta-suave">O tu cuenta PayPal, sin registrarte</p>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => !cryptoDisabled && setMethod("apolopay")}
-          aria-pressed={method === "apolopay"}
-          aria-disabled={cryptoDisabled}
-          disabled={cryptoDisabled}
-          className={`${optionBase} ${
-            method === "apolopay" ? "border-azul bg-tinte-azul" : "border-linea"
-          } ${cryptoDisabled ? "cursor-not-allowed opacity-50" : ""}`}
-        >
-          <p className="font-semibold text-tinta">Criptomoneda</p>
-          <p className="text-sm text-tinta-suave">
-            {cryptoDisabled ? "Disponible solo en USD" : "Vía ApoloPay"}
-          </p>
         </button>
 
         {/* Pago Movil y Zelle se coordinan a mano por WhatsApp: no abren un
@@ -110,9 +84,6 @@ export function PaymentStep({ leadId, leadName, onSuccess }: PaymentStepProps) {
 
       <div className="min-h-[96px]">
         {method === "paypal" && <PaypalPaymentOption leadId={leadId} onSuccess={onSuccess} />}
-        {method === "apolopay" && !cryptoDisabled && (
-          <ApoloPayPaymentOption leadId={leadId} onSuccess={onSuccess} />
-        )}
         {method === null && (
           <p className="text-sm text-tinta-suave">Elige un método de pago para continuar.</p>
         )}

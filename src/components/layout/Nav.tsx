@@ -5,8 +5,8 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { List, X } from "@phosphor-icons/react";
 import { CtaButton } from "@/components/checkout/CtaButton";
-import { SelectorTema } from "./SelectorTema";
 import { SelectorMoneda } from "./SelectorMoneda";
+import { SelectorTema } from "./SelectorTema";
 import { DUR, EASE_SIGNATURE } from "@/lib/motion";
 
 const NAV_LINKS = [

@@ -17,16 +17,16 @@ interface PaypalPaymentOptionProps {
   onSuccess: () => void;
 }
 
-type Status = "loading-config" | "ready" | "processing" | "error";
+type Status = "idle" | "processing" | "error";
 
 export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionProps) {
-  // El lead ya quedo creado en esta moneda (ver LeadForm/api/leads); el
-  // SDK de PayPal exige que el query param "currency" coincida con la
-  // moneda de la orden que crea create-order, o el boton falla al pagar.
+  // El SDK de PayPal exige que el query param "currency" coincida con la
+  // moneda de la orden que crea create-order (que a su vez lee lead.currency
+  // desde la base), o el boton falla al pagar.
   const { currency } = useCheckout();
   const currencyCode = currency === "eur" ? "EUR" : "USD";
   const [clientId, setClientId] = useState<string | null>(null);
-  const [status, setStatus] = useState<Status>("loading-config");
+  const [status, setStatus] = useState<Status>("idle");
   const containerRef = useRef<HTMLDivElement>(null);
   const renderedRef = useRef(false);
 
@@ -52,6 +52,12 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
     };
   }, []);
 
+  // Se dispara cuando el <Script> del SDK termina de cargar. Antes esto
+  // nunca ocurria: el render se quedaba mostrando "Cargando PayPal..." para
+  // siempre porque esa pantalla dependia de `status`, y aqui nunca se
+  // actualizaba `status` tras recibir el clientId. Ahora el gate de carga es
+  // `!clientId`, asi que en cuanto llega el clientId se monta el <Script> y
+  // este callback si se ejecuta.
   function handleSdkReady() {
     if (renderedRef.current || !containerRef.current || !window.paypal) return;
     renderedRef.current = true;
@@ -90,20 +96,18 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
         onError: () => setStatus("error"),
       })
       .render(containerRef.current);
-
-    setStatus("ready");
   }
 
-  if (status === "loading-config") {
-    return <p className="text-sm text-tinta-suave">Cargando PayPal...</p>;
-  }
-
-  if (status === "error" || !clientId) {
+  if (status === "error") {
     return (
       <p className="text-sm text-tinta-suave">
         PayPal no está disponible en este momento. Intenta con la otra opción de pago.
       </p>
     );
+  }
+
+  if (!clientId) {
+    return <p className="text-sm text-tinta-suave">Cargando PayPal...</p>;
   }
 
   return (

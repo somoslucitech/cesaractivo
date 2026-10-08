@@ -2,7 +2,10 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { useCheckout } from "./checkout-context";
+import { registrarAperturaCheckout } from "@/components/PageTracker";
 import { DUR, EASE_SIGNATURE } from "@/lib/motion";
+import { trackMeta } from "@/lib/meta-pixel";
+import { CURRENCY_LABEL } from "@/lib/pricing";
 
 export const CTA_LABEL = "Iniciar mi Detox5";
 
@@ -21,7 +24,7 @@ interface CtaButtonProps {
  * boton al presionar, dandole peso fisico al gesto.
  */
 export function CtaButton({ className = "", variant = "solid" }: CtaButtonProps) {
-  const { open } = useCheckout();
+  const { open, precios } = useCheckout();
   const shouldReduceMotion = useReducedMotion();
 
   const variants: Record<string, string> = {
@@ -33,7 +36,18 @@ export function CtaButton({ className = "", variant = "solid" }: CtaButtonProps)
   return (
     <motion.button
       type="button"
-      onClick={open}
+      // Este clic es el paso "abrio el checkout" del embudo del panel: el
+      // momento exacto en que una visita pasa de mirar a querer comprar.
+      // El registro va antes de open() pero no se espera: si la analitica
+      // tarda o falla, el modal tiene que abrirse igual.
+      onClick={() => {
+        registrarAperturaCheckout();
+        trackMeta("InitiateCheckout", {
+          value: precios.efectivo,
+          currency: CURRENCY_LABEL[precios.currency],
+        });
+        open();
+      }}
       whileHover={shouldReduceMotion ? undefined : { scale: 1.03, y: -1 }}
       // El press lleva su propia transicion: DUR.press (140ms) frente a los
       // 90ms del hover. Compartir una sola hacia que la pulsacion se sintiera

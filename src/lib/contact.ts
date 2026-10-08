@@ -4,6 +4,20 @@ export const WHATSAPP_DISPLAY = "+58 414-8985299";
 /** Formato que exige wa.me: solo digitos, con codigo de pais y sin el 0 inicial. */
 export const WHATSAPP_NUMBER = "584148985299";
 
+/**
+ * Enlace al WhatsApp de UNA PERSONA concreta, para que el panel pueda
+ * escribirle a quien dejo sus datos. Distinto de whatsappUrl(), que siempre
+ * apunta al numero de Cesar.
+ *
+ * El numero se guarda tal cual lo escribio la persona ("+58 414-898 5299"),
+ * asi que hay que reducirlo a digitos: wa.me no acepta espacios ni guiones.
+ */
+export function whatsappUrlDe(numero: string, message?: string): string {
+  const digitos = numero.replace(/\D/g, "");
+  const base = `https://wa.me/${digitos}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
+
 export function whatsappUrl(message?: string): string {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;

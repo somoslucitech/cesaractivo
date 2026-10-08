@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Newsreader, Inter } from "next/font/google";
 import { CheckoutProvider } from "@/components/checkout/checkout-context";
+import { PageTracker } from "@/components/PageTracker";
+import { MetaPixel } from "@/components/MetaPixel";
+import { BannerCookies } from "@/components/BannerCookies";
+import { obtenerConfigPrecio } from "@/lib/settings";
+import { cf } from "@/lib/cloudflare";
 import "./globals.css";
 
 /**
@@ -32,9 +37,9 @@ const inter = Inter({
 });
 
 /**
- * TODO(cliente): confirmar el dominio definitivo. Se toma cesaractivo.com del
- * TODO de wrangler.jsonc. metadataBase es obligatorio para que og:image salga
- * como URL absoluta; con una URL relativa WhatsApp y Facebook no la resuelven.
+ * Dominio confirmado por el cliente (2026-09-18). metadataBase es obligatorio
+ * para que og:image salga como URL absoluta; con una URL relativa WhatsApp y
+ * Facebook no la resuelven.
  */
 const SITE_URL = "https://cesaractivo.com";
 
@@ -81,11 +86,18 @@ export const metadata: Metadata = {
  */
 const SCRIPT_TEMA = `try{var t=localStorage.getItem("tema");if(t==="claro"||t==="oscuro"){document.documentElement.dataset.theme=t==="claro"?"light":"dark"}}catch(e){}`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // La configuracion se lee aqui, en el servidor, y baja por props hasta el
+  // contexto, que calcula el precio de la moneda elegida. Asi una sola
+  // consulta sirve a todos los sitios donde aparece el precio y cambiar de
+  // moneda no necesita ida y vuelta al servidor.
+  const config = await obtenerConfigPrecio();
+  const { env } = await cf();
+
   // Ojo: nada de h-full en <html>. Un height:100% fijo ahi rompe el scroll
   // por anclas (#plan, #cesar...). Era un resto del scaffold de Next.js.
   return (
@@ -101,7 +113,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
       </head>
       <body className="flex min-h-[100dvh] flex-col bg-superficie text-tinta">
-        <CheckoutProvider>{children}</CheckoutProvider>
+        <PageTracker />
+        <MetaPixel pixelId={env.META_PIXEL_ID} />
+        <CheckoutProvider config={config}>{children}</CheckoutProvider>
+        <BannerCookies pixelId={env.META_PIXEL_ID} />
       </body>
     </html>
   );

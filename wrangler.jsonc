@@ -12,15 +12,18 @@
     {
       "binding": "DB",
       "database_name": "cesaractivo-leads",
-      "database_id": "f9a0b010-8b65-4924-8a56-e28b5cf66962",
+      "database_id": "d9dbb1fc-be3c-4fca-acc9-ac43b85596c1",
       "migrations_dir": "migrations"
     }
   ],
-  // TODO(cliente): onboardear el dominio con
-  // `wrangler email sending enable cesaractivo.com` antes del primer envio.
-  "send_email": [
-    {
-      "name": "EMAIL"
-    }
-  ]
+  // Solo valores publicos. Todo lo sensible va como Secret
+  // (`wrangler secret put`), que este bloque no toca.
+  "vars": {
+    // ID del pixel de Meta. Es publico: termina en el navegador igualmente.
+    "META_PIXEL_ID": "1363269879149938"
+  }
+  // El envio de correo usa Resend (src/lib/email.ts), no el binding nativo
+  // de Cloudflare Email Workers: por eso aqui no hay bloque "send_email".
+  // TODO(cliente): verificar el dominio de envio en el panel de Resend
+  // (Domains > Add Domain) antes de que COACH_FROM_EMAIL funcione de verdad.
 }

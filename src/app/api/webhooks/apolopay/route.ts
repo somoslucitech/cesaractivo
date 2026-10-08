@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
 
   const lead = await markLeadPaidByApoloPayProcessId(event.processId);
 
-  if (lead && env.COACH_NOTIFY_EMAIL && env.COACH_FROM_EMAIL) {
-    await notifyCoachNewPaidLead(env.EMAIL, {
+  if (lead && env.COACH_NOTIFY_EMAIL && env.COACH_FROM_EMAIL && env.RESEND_API_KEY) {
+    await notifyCoachNewPaidLead(env.RESEND_API_KEY, {
       fromAddress: env.COACH_FROM_EMAIL,
       toAddress: env.COACH_NOTIFY_EMAIL,
       lead,

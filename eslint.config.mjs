@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Salida del build de OpenNext para Cloudflare: es codigo generado, no
+    // fuente. Sin esto, `npm run lint` reportaba mas de 13.000 problemas de
+    // ficheros que nadie escribe a mano y ocultaba los de src/.
+    ".open-next/**",
+    // Temporales de wrangler (los crea `npm run preview`). Mismo caso.
+    ".wrangler/**",
   ]),
 ]);
 

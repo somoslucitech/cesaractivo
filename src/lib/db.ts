@@ -1,28 +1,47 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Lead } from "./types";
-import { PRICE_EUR, PRICE_USD, type Currency } from "./pricing";
-
-async function getDb() {
-  const { env } = await getCloudflareContext({ async: true });
-  return env.DB;
-}
+import { getDb } from "./cloudflare";
 
 export async function createLead(input: {
   name: string;
   email: string;
   whatsapp: string;
-  currency: Currency;
+  currency: "usd" | "eur";
+  /**
+   * Importes ya con la oferta aplicada si la habia. Los calcula quien llama,
+   * SIEMPRE en el servidor: se guarda el precio del momento porque una
+   * oferta que caduque manana no debe cambiar lo que figura que pago alguien
+   * hoy.
+   *
+   * montoUsd va siempre poblado (es el precio de referencia, se haya pagado
+   * en la moneda que se haya pagado); montoEur solo cuando currency es "eur".
+   */
+  montoUsd: number;
+  montoEur?: number | null;
+  /** Atribucion: de donde venia quien dejo sus datos. Opcional a proposito. */
+  visitorHash?: string | null;
+  country?: string | null;
+  referrer?: string | null;
 }): Promise<Lead> {
   const db = await getDb();
   const id = crypto.randomUUID();
-  const amountEur = input.currency === "eur" ? PRICE_EUR : null;
 
   await db
     .prepare(
-      `INSERT INTO leads (id, name, email, whatsapp, amount_usd, amount_eur, currency)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO leads (id, name, email, whatsapp, amount_usd, amount_eur, currency, visitor_hash, country, referrer)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
-    .bind(id, input.name, input.email, input.whatsapp, PRICE_USD, amountEur, input.currency)
+    .bind(
+      id,
+      input.name,
+      input.email,
+      input.whatsapp,
+      input.montoUsd,
+      input.currency === "eur" ? (input.montoEur ?? null) : null,
+      input.currency,
+      input.visitorHash ?? null,
+      input.country ?? null,
+      input.referrer ?? null,
+    )
     .run();
 
   const lead = await db

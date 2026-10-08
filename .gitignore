@@ -51,3 +51,6 @@ next-env.d.ts
 # Originales de la sesion de fotos (209 MB de PNG). Fuente, no build:
 # de aqui salen los .webp optimizados de public/photos.
 fotografias/
+
+# Variables locales de desarrollo (secretos). Nunca al repo.
+.dev.vars

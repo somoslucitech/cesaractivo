@@ -7,12 +7,14 @@ import { useCheckout } from "./checkout-context";
 import { LeadForm } from "./LeadForm";
 import { PaymentStep } from "./PaymentStep";
 import { DUR, EASE_EXIT, EASE_SIGNATURE, FOLLOW_THROUGH } from "@/lib/motion";
+import { trackMeta } from "@/lib/meta-pixel";
+import { CURRENCY_LABEL } from "@/lib/pricing";
 
 /** Back-out con leve overshoot, solo para el acento Energetic del exito. */
 const EASE_OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
 
 export function CheckoutModal() {
-  const { isOpen, close, step, leadId, leadName, setStep, setLead } = useCheckout();
+  const { isOpen, close, step, leadId, leadName, precios, setStep, setLead } = useCheckout();
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export function CheckoutModal() {
                     <LeadForm
                       onCreated={(lead) => {
                         setLead(lead);
+                        trackMeta("Lead", {}, lead.id);
                         setStep("payment");
                       }}
                     />
@@ -94,7 +97,17 @@ export function CheckoutModal() {
                     <PaymentStep
                       leadId={leadId}
                       leadName={leadName}
-                      onSuccess={() => setStep("success")}
+                      onSuccess={() => {
+                        // Valor de pantalla, no el cobrado: para medir
+                        // anuncios basta. leadId hace de eventID para que
+                        // Meta descarte duplicados.
+                        trackMeta(
+                          "Purchase",
+                          { value: precios.efectivo, currency: CURRENCY_LABEL[precios.currency] },
+                          `purchase-${leadId}`,
+                        );
+                        setStep("success");
+                      }}
                     />
                   </motion.div>
                 )}
