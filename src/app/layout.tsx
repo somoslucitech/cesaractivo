@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Newsreader, Inter } from "next/font/google";
 import { CheckoutProvider } from "@/components/checkout/checkout-context";
 import { PageTracker } from "@/components/PageTracker";
@@ -6,6 +7,7 @@ import { MetaPixel } from "@/components/MetaPixel";
 import { BannerCookies } from "@/components/BannerCookies";
 import { obtenerConfigPrecio } from "@/lib/settings";
 import { cf } from "@/lib/cloudflare";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 /**
@@ -36,18 +38,21 @@ const inter = Inter({
   display: "swap",
 });
 
-/**
- * Dominio confirmado por el cliente (2026-09-18). metadataBase es obligatorio
- * para que og:image salga como URL absoluta; con una URL relativa WhatsApp y
- * Facebook no la resuelven.
- */
-const SITE_URL = "https://cesaractivo.com";
+// metadataBase es obligatorio para que og:image salga como URL absoluta; con
+// una URL relativa WhatsApp y Facebook no la resuelven.
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Detox5 | Plan de alimentación de 7 días con César Activo",
+  // La busqueda va primero ("detox de 7 dias"): la marca Detox5 todavia no la
+  // busca casi nadie. Se mantiene por debajo de ~60 caracteres para que
+  // Google no la corte, y la descripcion por debajo de ~155.
+  title: "Detox de 7 días para mujeres de 40+ | Detox5 César Activo",
   description:
-    "7 días de comida real para desinflamar y reiniciar tu metabolismo, para mujeres de 40 a 70. Sin pasar hambre, sin suplementos y con acompañamiento diario por WhatsApp.",
+    "Plan detox de 7 días con comida real para desinflamar y reiniciar tu metabolismo después de los 40. Sin hambre ni suplementos, con acompañamiento diario.",
+  // Canonical siempre al dominio principal: la misma pagina se sirve tambien
+  // en *.workers.dev y sin esto Google la veria duplicada. metadataBase la
+  // vuelve absoluta (https://cesaractivo.com/).
+  alternates: { canonical: "/" },
   // El trafico llega por WhatsApp e Instagram y hasta ahora los enlaces se
   // compartian sin vista previa. La imagen la genera src/app/opengraph-image.tsx.
   openGraph: {
@@ -95,6 +100,13 @@ export default async function RootLayout({
   // contexto, que calcula el precio de la moneda elegida. Asi una sola
   // consulta sirve a todos los sitios donde aparece el precio y cambiar de
   // moneda no necesita ida y vuelta al servidor.
+  //
+  // connection(): sin esto Next genera las paginas en el build con el precio
+  // de ese momento y Cloudflare las cachea un ano, asi que un cambio de
+  // precio u oferta desde el panel no se veria en la web (y se cobraria un
+  // importe distinto al mostrado). OpenNext no tiene cache incremental
+  // configurada, por lo que revalidatePath no es una alternativa aqui.
+  await connection();
   const config = await obtenerConfigPrecio();
   const { env } = await cf();
 

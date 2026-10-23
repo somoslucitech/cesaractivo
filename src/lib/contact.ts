@@ -23,16 +23,16 @@ export function whatsappUrl(message?: string): string {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
-export function pagoMovilMessage(name: string): string {
-  const cleanName = name.trim();
-  return `Hola mi nombre es ${cleanName}, estoy interesad@ en el plan Detox5`;
-}
+/** Medios que se cobran a mano: la web solo abre WhatsApp con el mensaje. */
+export type MedioManual = "Pago Móvil" | "Zelle" | "Binance";
 
-/** Zelle se coordina a mano por WhatsApp, igual que Pago Movil: no hay
- *  procesamiento en la web, solo se arma el mensaje de contacto. */
-export function zelleMessage(name: string): string {
-  const cleanName = name.trim();
-  return `Hola mi nombre es ${cleanName}, quiero pagar el plan Detox5 por Zelle`;
+/**
+ * Mensaje prellenado para los pagos que se coordinan por WhatsApp. Dice el
+ * medio y que la persona viene de la web, para que el equipo sepa de entrada
+ * como cobrarle y la busque en el panel (ya dejo sus datos en el formulario).
+ */
+export function pagoManualMessage(name: string, medio: MedioManual): string {
+  return `Hola, soy ${name.trim()}, me registré en la web y quiero pagar el Detox5 por ${medio}`;
 }
 
 /** Los otros programas (Escuela de Alimentacion, Team Puro Power) no

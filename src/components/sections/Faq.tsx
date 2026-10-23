@@ -6,47 +6,26 @@ import { CaretDown } from "@phosphor-icons/react";
 import { CtaButton } from "@/components/checkout/CtaButton";
 import { PriceTag } from "@/components/checkout/PriceTag";
 import { DUR, EASE_SIGNATURE } from "@/lib/motion";
+import { FAQS, PRECIO } from "@/lib/faq";
 
 /**
- * Orden y contenido pensados para el Detox5 y solo para el Detox5. Antes la
- * segunda pregunta (la posicion mas leida despues del precio) respondia por
- * los horarios de clases en vivo del Parque del Este, que son de Team Puro
- * Power y no de este producto: la landing le ensenaba al visitante que estaba
- * comprando un gimnasio. Esa informacion vive ahora en OtherServices, donde
- * corresponde. El precio se interpola con PriceTag en lugar de escribirse a
- * mano, que era como se colaba "$18" incluso con la moneda en euros.
+ * Orden y contenido pensados para el Detox5 y solo para el Detox5 (los
+ * horarios de Team Puro Power viven en OtherServices). Los textos estan en
+ * src/lib/faq.ts porque tambien alimentan el JSON-LD FAQPage. El precio se
+ * interpola con PriceTag en lugar de escribirse a mano, que era como se colaba
+ * "$18" incluso con la moneda en euros.
  */
-const FAQS = [
-  {
-    question: "¿Cuánto cuesta y qué métodos de pago aceptan?",
-    answer: (
-      <>
-        La fase diagnóstica del Plan Detox5 tiene una inversión única de <PriceTag />. Puedes
-        pagar con Pago Móvil, Zelle, tarjeta internacional, PayPal o criptomoneda.
-      </>
-    ),
-  },
-  {
-    question: "¿Qué voy a comer durante los 7 días?",
-    answer:
-      "Comida real y cotidiana, de la que consigues en tu mercado de siempre. Recibes la guía del método con las combinaciones que desinflaman y la lista de compras de la semana. Sin batidos, sin pastillas, sin platos raros y sin porciones de hambre.",
-  },
-  {
-    question: "¿Debo comprar suplementos costosos o pasar hambre?",
-    answer:
-      "No. No vendemos pastillas ni batidos milagrosos. El método te enseña a comer comida real, sabrosa y accesible que consigues en cualquier supermercado.",
-  },
-  {
-    question: "No tengo buena condición física, ¿puedo hacerlo a mis años?",
-    answer:
-      "Totalmente. El método está diseñado para mujeres entre 40 y 70 años, y el centro del plan es la alimentación, no el ejercicio. El movimiento que se suma es suave y se adapta a tu rango actual para proteger tus articulaciones.",
-  },
-  {
-    question: "¿Cómo es el acompañamiento durante la semana?",
-    answer:
-      "Diario y por WhatsApp, de lunes a domingo. Ahí se supervisan tus hábitos y tu alimentación, y resuelves tus dudas con el coach de guardia. No necesitas asistir a ningún sitio: el Detox5 se hace completo desde donde estés.",
-  },
-];
+function Respuesta({ texto }: { texto: string }) {
+  const [antes, despues] = texto.split(PRECIO);
+  if (despues === undefined) return <>{texto}</>;
+  return (
+    <>
+      {antes}
+      <PriceTag />
+      {despues}
+    </>
+  );
+}
 
 export function Faq() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -88,7 +67,8 @@ export function Faq() {
         </div>
 
         <div className="flex flex-col justify-center gap-3">
-          <h3 className="mb-1 font-display text-2xl text-tinta">Preguntas frecuentes</h3>
+          {/* h2: es una seccion propia, no un apartado de la tarjeta de precio. */}
+          <h2 className="mb-1 font-display text-2xl text-tinta">Preguntas frecuentes</h2>
           {FAQS.map((faq, index) => {
             const isActive = activeIndex === index;
             return (
@@ -138,7 +118,7 @@ export function Faq() {
                     transition={{ duration: shouldReduceMotion ? 0 : DUR.quick, ease: EASE_SIGNATURE }}
                     className="pt-3 text-sm leading-relaxed text-tinta-suave"
                   >
-                    {faq.answer}
+                    <Respuesta texto={faq.answer} />
                   </motion.p>
                 </motion.div>
               </div>

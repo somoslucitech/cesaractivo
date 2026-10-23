@@ -4,10 +4,17 @@ import { useState } from "react";
 import { WhatsappLogo } from "@phosphor-icons/react";
 import { PaypalPaymentOption } from "./PaypalPaymentOption";
 import { useCheckout } from "./checkout-context";
-import { pagoMovilMessage, whatsappUrl, zelleMessage } from "@/lib/contact";
+import { pagoManualMessage, whatsappUrl, type MedioManual } from "@/lib/contact";
 import { formatPrice } from "@/lib/pricing";
 
 type Method = "paypal" | null;
+
+/**
+ * Binance (cripto) volvio el 2026-10-22 como medio manual, igual que Pago
+ * Movil y Zelle. La pasarela ApoloPay sigue fuera: su componente y sus rutas
+ * siguen en el repo por si se retoma.
+ */
+const MEDIOS_MANUALES: MedioManual[] = ["Pago Móvil", "Zelle", "Binance"];
 
 interface PaymentStepProps {
   leadId: string;
@@ -49,37 +56,25 @@ export function PaymentStep({ leadId, leadName, onSuccess }: PaymentStepProps) {
           <p className="text-sm text-tinta-suave">O tu cuenta PayPal, sin registrarte</p>
         </button>
 
-        {/* Pago Movil y Zelle se coordinan a mano por WhatsApp: no abren un
-            widget, salen de la pagina con el mensaje ya escrito. */}
-        <a
-          href={whatsappUrl(pagoMovilMessage(leadName))}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${optionBase} border-linea hover:border-[#25D366]`}
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="font-semibold text-tinta">Pago Móvil</p>
-              <p className="text-sm text-tinta-suave">Coordinamos por WhatsApp</p>
+        {/* Pago Movil, Zelle y Binance se cobran a mano: no abren un widget,
+            salen de la pagina a WhatsApp con el mensaje ya escrito. */}
+        {MEDIOS_MANUALES.map((medio) => (
+          <a
+            key={medio}
+            href={whatsappUrl(pagoManualMessage(leadName, medio))}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${optionBase} border-linea hover:border-[#25D366]`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="font-semibold text-tinta">{medio}</p>
+                <p className="text-sm text-tinta-suave">Coordinamos por WhatsApp</p>
+              </div>
+              <WhatsappLogo size={22} weight="fill" className="shrink-0 text-[#25D366]" />
             </div>
-            <WhatsappLogo size={22} weight="fill" className="shrink-0 text-[#25D366]" />
-          </div>
-        </a>
-
-        <a
-          href={whatsappUrl(zelleMessage(leadName))}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${optionBase} border-linea hover:border-[#25D366]`}
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="font-semibold text-tinta">Zelle</p>
-              <p className="text-sm text-tinta-suave">Coordinamos por WhatsApp</p>
-            </div>
-            <WhatsappLogo size={22} weight="fill" className="shrink-0 text-[#25D366]" />
-          </div>
-        </a>
+          </a>
+        ))}
       </div>
 
       <div className="min-h-[96px]">

@@ -19,7 +19,7 @@ export const EVENTO_CONSENTIMIENTO = "consentimiento-cambio";
  * Rutas donde se mide. Es una lista de permitidas y no de excluidas porque la
  * URL del panel es secreta y el navegador no la conoce.
  */
-const RUTAS_MEDIDAS = ["/", "/gracias"];
+const RUTAS_MEDIDAS = ["/", "/gracias", "/privacidad", "/terminos"];
 
 export function esRutaMedida(pathname: string): boolean {
   return RUTAS_MEDIDAS.includes(pathname);

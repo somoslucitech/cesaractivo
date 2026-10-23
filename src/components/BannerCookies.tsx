@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   esRutaMedida,
@@ -36,7 +37,10 @@ export function BannerCookies({ pixelId }: { pixelId: string | undefined }) {
     >
       <div className="mx-auto flex max-w-3xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-tinta-suave">
-          Usamos cookies de Meta para medir nuestros anuncios. ¿Nos lo permites?
+          Usamos cookies de Meta para medir nuestros anuncios. ¿Nos lo permites?{" "}
+          <Link href="/privacidad" className="font-semibold text-azul-texto underline">
+            Más información
+          </Link>
         </p>
         <div className="flex shrink-0 gap-2">
           <button

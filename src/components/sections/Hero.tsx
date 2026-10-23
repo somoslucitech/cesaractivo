@@ -109,9 +109,11 @@ export function Hero() {
             />
           </span>
           {/* Desambigua "DETOX5" para quien no llega a leer el H1: sin esta
-              linea el wordmark solo podria ser jugoterapia o un bootcamp. */}
+              linea el wordmark solo podria ser jugoterapia o un bootcamp.
+              "Plan detox" es como se busca en Google; "de comida real" evita
+              que se lea como un detox de jugos. */}
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amarillo sm:text-sm">
-            Programa de alimentación · Reinicio metabólico de 7 días
+            Plan detox de comida real · Reinicio metabólico de 7 días
           </p>
         </div>
         <h1 className="max-w-xl font-display text-4xl leading-[1.05] text-blanco-calido md:text-5xl lg:text-6xl">

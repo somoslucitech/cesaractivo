@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { markLeadPaidByPaypalOrderId } from "@/lib/db";
 import { verifyPaypalWebhookSignature } from "@/lib/paypal";
-import { notifyCoachNewPaidLead } from "@/lib/email";
+import { notificarPagoConfirmado } from "@/lib/notificaciones";
 
 interface PaypalCaptureCompletedEvent {
   event_type: string;
@@ -61,14 +61,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "order_id ausente en el evento" }, { status: 400 });
   }
 
-  const lead = await markLeadPaidByPaypalOrderId(orderId);
-
-  if (lead && env.COACH_NOTIFY_EMAIL && env.COACH_FROM_EMAIL && env.RESEND_API_KEY) {
-    await notifyCoachNewPaidLead(env.RESEND_API_KEY, {
-      fromAddress: env.COACH_FROM_EMAIL,
-      toAddress: env.COACH_NOTIFY_EMAIL,
-      lead,
-    });
+  // Si la captura ya marco el pago, recienPagado es false y no se repiten los
+  // correos.
+  const resultado = await markLeadPaidByPaypalOrderId(orderId);
+  if (resultado?.recienPagado) {
+    await notificarPagoConfirmado(resultado.lead, { avisarCoach: true });
   }
 
   return NextResponse.json({ ok: true });

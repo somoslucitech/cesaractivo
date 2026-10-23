@@ -118,7 +118,11 @@ export function PaypalPaymentOption({ leadId, onSuccess }: PaypalPaymentOptionPr
         onLoad={handleSdkReady}
         onReady={handleSdkReady}
       />
-      <div ref={containerRef} />
+      {/* color-scheme light: la pagina declara "light dark" y el iframe de
+          PayPal no, asi que en modo oscuro el navegador le pintaba un
+          recuadro blanco detras de los botones. La propiedad se hereda al
+          iframe y lo alinea con el contenido de PayPal, que siempre es claro. */}
+      <div ref={containerRef} style={{ colorScheme: "light" }} />
       {status === "processing" && (
         <p className="mt-2 text-sm text-tinta-suave">Confirmando tu pago...</p>
       )}

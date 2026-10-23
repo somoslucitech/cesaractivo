@@ -82,8 +82,30 @@ export async function attachPaypalOrder(leadId: string, orderId: string) {
     .run();
 }
 
-async function markPaidByColumn(column: "apolopay_process_id" | "paypal_order_id", value: string): Promise<Lead | null> {
+/**
+ * Resultado de marcar un pago. `recienPagado` dice si ESTA llamada fue la que
+ * lo paso a pagado: la captura de PayPal y su webhook llegan casi a la vez y
+ * solo el primero debe enviar los correos.
+ */
+export type ResultadoPago = { lead: Lead; recienPagado: boolean };
+
+async function markPaidByColumn(
+  column: "apolopay_process_id" | "paypal_order_id",
+  value: string,
+): Promise<ResultadoPago | null> {
   const db = await getDb();
+
+  // El "AND payment_status != 'paid'" hace atomico el cambio: si dos
+  // peticiones llegan a la vez, solo una ve changes = 1. Leer primero y
+  // escribir despues dejaba una ventana en la que ambas creian ser la primera.
+  const res = await db
+    .prepare(
+      `UPDATE leads
+       SET payment_status = 'paid', paid_at = strftime('%Y-%m-%dT%H:%M:%fZ','now'), updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now')
+       WHERE ${column} = ? AND payment_status != 'paid'`,
+    )
+    .bind(value)
+    .run();
 
   const lead = await db
     .prepare(`SELECT * FROM leads WHERE ${column} = ?`)
@@ -91,18 +113,7 @@ async function markPaidByColumn(column: "apolopay_process_id" | "paypal_order_id
     .first<Lead>();
 
   if (!lead) return null;
-  if (lead.payment_status === "paid") return lead;
-
-  await db
-    .prepare(
-      `UPDATE leads
-       SET payment_status = 'paid', paid_at = strftime('%Y-%m-%dT%H:%M:%fZ','now'), updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now')
-       WHERE id = ?`,
-    )
-    .bind(lead.id)
-    .run();
-
-  return { ...lead, payment_status: "paid" };
+  return { lead, recienPagado: (res.meta.changes ?? 0) > 0 };
 }
 
 export async function markLeadPaidByApoloPayProcessId(processId: string) {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -15,6 +16,14 @@ export function Footer() {
           Acompañamiento nutricional y de movimiento para mujeres que quieren recuperar su
           energía, sin dietas de hambre ni promesas vacías.
         </p>
+        <nav aria-label="Legal" className="flex gap-5 text-xs font-semibold text-azul-texto">
+          <Link href="/privacidad" className="hover:text-azul">
+            Política de privacidad
+          </Link>
+          <Link href="/terminos" className="hover:text-azul">
+            Términos y condiciones
+          </Link>
+        </nav>
         <p className="text-xs text-tinta-suave">
           © {new Date().getFullYear()} César Activo. Todos los derechos reservados.
         </p>

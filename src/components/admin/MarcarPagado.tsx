@@ -63,7 +63,9 @@ export function MarcarPagado({ leadId, nombre }: { leadId: string; nombre: strin
           [
             ["zelle", "Zelle"],
             ["pago_movil", "Pago Móvil"],
-            ["otro", "Otro"],
+            // Binance se guarda como "otro": el CHECK de payment_method no lo
+            // admite y no merece una migracion de la tabla leads.
+            ["otro", "Binance u otro"],
           ] as const
         ).map(([valor, etiqueta]) => (
           <button

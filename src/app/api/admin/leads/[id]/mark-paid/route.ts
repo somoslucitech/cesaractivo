@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { adminDeApi } from "@/lib/auth/guard";
 import { marcarPagadoAMano } from "@/lib/stats";
+import { getLeadById } from "@/lib/db";
+import { notificarPagoConfirmado } from "@/lib/notificaciones";
 
 const cuerpo = z.object({
   metodo: z.enum(["zelle", "pago_movil", "otro"]),
@@ -46,6 +48,11 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ id: strin
       { status: 409 },
     );
   }
+
+  // Zelle y Pago Movil: el coach ya lo sabe (es quien lo confirma), asi que
+  // solo sale el agradecimiento a la compradora.
+  const lead = await getLeadById(id);
+  if (lead) await notificarPagoConfirmado(lead, { avisarCoach: false });
 
   return NextResponse.json({ ok: true });
 }

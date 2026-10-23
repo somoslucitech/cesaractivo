@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getDb } from "./cloudflare";
 import {
   calcularPrecios,
@@ -59,15 +60,18 @@ const CONFIG_POR_DEFECTO: ConfigPrecio = {
  * Configuracion vigente. Si la lectura falla se cae a los precios de lista en
  * lugar de reventar: es preferible cobrar el precio normal a que la pagina
  * entera deje de vender.
+ *
+ * cache(): el layout y la portada la piden en la misma visita; asi es una sola
+ * consulta. Fuera de un render (rutas de API) no cachea nada.
  */
-export async function obtenerConfigPrecio(): Promise<ConfigPrecio> {
+export const obtenerConfigPrecio = cache(async (): Promise<ConfigPrecio> => {
   try {
     return configDesdeAjustes(await leerAjustes());
   } catch (error) {
     console.error("[cesaractivo] no se pudieron leer los ajustes de precio:", error);
     return CONFIG_POR_DEFECTO;
   }
-}
+});
 
 /** Precio vigente para una moneda. Unica fuente valida para cobrar. */
 export async function obtenerPrecios(currency: Currency): Promise<Precios> {

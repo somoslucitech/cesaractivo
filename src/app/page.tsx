@@ -14,10 +14,17 @@ import { OtherServices } from "@/components/sections/OtherServices";
 import { GuaranteeCta } from "@/components/sections/GuaranteeCta";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
+import { JsonLd } from "@/components/JsonLd";
+import { obtenerConfigPrecio } from "@/lib/settings";
 
-export default function Home() {
+export default async function Home() {
+  // Misma lectura que el layout: el precio del JSON-LD tiene que coincidir
+  // con el que se ve en la pagina.
+  const config = await obtenerConfigPrecio();
+
   return (
     <>
+      <JsonLd config={config} />
       <Nav />
       <main>
         <Hero />

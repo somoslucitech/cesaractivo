@@ -3,6 +3,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { z } from "zod";
 import { markLeadPaidByPaypalOrderId } from "@/lib/db";
 import { capturePaypalOrder } from "@/lib/paypal";
+import { notificarPagoConfirmado } from "@/lib/notificaciones";
 
 const bodySchema = z.object({ orderId: z.string().min(1) });
 
@@ -31,10 +32,15 @@ export async function POST(request: NextRequest) {
     parsed.data.orderId,
   );
 
-  // Actualización optimista para la UI. El webhook de PayPal
-  // (PAYMENT.CAPTURE.COMPLETED) es la fuente de verdad definitiva.
+  // La captura COMPLETED ya es la confirmacion de PayPal de que el dinero
+  // entro. El webhook (PAYMENT.CAPTURE.COMPLETED) llega despues y cubre el
+  // caso de que la compradora cierre la pestana antes de esta respuesta. Los
+  // correos los envia el primero de los dos que marque el pago.
   if (capture.status === "COMPLETED") {
-    await markLeadPaidByPaypalOrderId(parsed.data.orderId);
+    const resultado = await markLeadPaidByPaypalOrderId(parsed.data.orderId);
+    if (resultado?.recienPagado) {
+      await notificarPagoConfirmado(resultado.lead, { avisarCoach: true });
+    }
   }
 
   return NextResponse.json({ status: capture.status });

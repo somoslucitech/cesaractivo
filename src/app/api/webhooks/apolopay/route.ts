@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { verifyApoloPaySignature, type ApoloPayWebhookEvent } from "@/lib/apolopay";
 import { markLeadPaidByApoloPayProcessId } from "@/lib/db";
-import { notifyCoachNewPaidLead } from "@/lib/email";
+import { notificarPagoConfirmado } from "@/lib/notificaciones";
 
 export async function POST(request: NextRequest) {
   const rawBody = await request.text();
@@ -32,14 +32,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, skipped: true });
   }
 
-  const lead = await markLeadPaidByApoloPayProcessId(event.processId);
-
-  if (lead && env.COACH_NOTIFY_EMAIL && env.COACH_FROM_EMAIL && env.RESEND_API_KEY) {
-    await notifyCoachNewPaidLead(env.RESEND_API_KEY, {
-      fromAddress: env.COACH_FROM_EMAIL,
-      toAddress: env.COACH_NOTIFY_EMAIL,
-      lead,
-    });
+  const resultado = await markLeadPaidByApoloPayProcessId(event.processId);
+  if (resultado?.recienPagado) {
+    await notificarPagoConfirmado(resultado.lead, { avisarCoach: true });
   }
 
   return NextResponse.json({ ok: true });
