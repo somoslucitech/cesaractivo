@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { connection } from "next/server";
 import { Newsreader, Inter } from "next/font/google";
-import { CheckoutProvider } from "@/components/checkout/checkout-context";
 import { PageTracker } from "@/components/PageTracker";
 import { MetaPixel } from "@/components/MetaPixel";
 import { BannerCookies } from "@/components/BannerCookies";
-import { obtenerConfigPrecio } from "@/lib/settings";
 import { cf } from "@/lib/cloudflare";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -96,18 +93,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // La configuracion se lee aqui, en el servidor, y baja por props hasta el
-  // contexto, que calcula el precio de la moneda elegida. Asi una sola
-  // consulta sirve a todos los sitios donde aparece el precio y cambiar de
-  // moneda no necesita ida y vuelta al servidor.
-  //
-  // connection(): sin esto Next genera las paginas en el build con el precio
-  // de ese momento y Cloudflare las cachea un ano, asi que un cambio de
-  // precio u oferta desde el panel no se veria en la web (y se cobraria un
-  // importe distinto al mostrado). OpenNext no tiene cache incremental
-  // configurada, por lo que revalidatePath no es una alternativa aqui.
-  await connection();
-  const config = await obtenerConfigPrecio();
+  // Nada de leer la base aqui: lo que se lee en el layout vuelve dinamicas
+  // todas las paginas, y cada visita se renderizaba de nuevo en el Worker
+  // (40-500 ms de CPU por peticion). El precio se lee solo en la portada,
+  // que se genera una vez y se regenera al guardar precios en el panel.
   const { env } = await cf();
 
   // Ojo: nada de h-full en <html>. Un height:100% fijo ahi rompe el scroll
@@ -127,7 +116,7 @@ export default async function RootLayout({
       <body className="flex min-h-[100dvh] flex-col bg-superficie text-tinta">
         <PageTracker />
         <MetaPixel pixelId={env.META_PIXEL_ID} />
-        <CheckoutProvider config={config}>{children}</CheckoutProvider>
+        {children}
         <BannerCookies pixelId={env.META_PIXEL_ID} />
       </body>
     </html>

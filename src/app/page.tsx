@@ -15,15 +15,22 @@ import { GuaranteeCta } from "@/components/sections/GuaranteeCta";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { JsonLd } from "@/components/JsonLd";
+import { CheckoutProvider } from "@/components/checkout/checkout-context";
 import { obtenerConfigPrecio } from "@/lib/settings";
 
+// La portada es estatica: se genera una vez y OpenNext la sirve desde KV sin
+// renderizar. Se regenera al guardar precios en el panel (revalidatePath en
+// /api/admin/settings/pricing) y, por si una oferta empieza o termina por
+// fecha, como mucho una vez por hora.
+export const revalidate = 3600;
+
 export default async function Home() {
-  // Misma lectura que el layout: el precio del JSON-LD tiene que coincidir
-  // con el que se ve en la pagina.
+  // Una sola lectura para el contexto de compra y el JSON-LD: el precio de
+  // los datos estructurados tiene que coincidir con el que se ve.
   const config = await obtenerConfigPrecio();
 
   return (
-    <>
+    <CheckoutProvider config={config}>
       <JsonLd config={config} />
       <Nav />
       <main>
@@ -43,6 +50,6 @@ export default async function Home() {
       </main>
       <Footer />
       <WhatsappBubble />
-    </>
+    </CheckoutProvider>
   );
 }

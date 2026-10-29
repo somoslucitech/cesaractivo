@@ -14,6 +14,27 @@
       "database_name": "cesaractivo-leads",
       "database_id": "d9dbb1fc-be3c-4fca-acc9-ac43b85596c1",
       "migrations_dir": "migrations"
+    },
+    {
+      // Cache de etiquetas de OpenNext (revalidatePath). Es la misma base:
+      // solo usa su tabla "revalidations", que crea el deploy.
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "cesaractivo-leads",
+      "database_id": "d9dbb1fc-be3c-4fca-acc9-ac43b85596c1"
+    }
+  ],
+  // Paginas generadas (portada y legales) que OpenNext sirve sin renderizar.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "7f0988691a7a43d787f9e1b2f96d29e7"
+    }
+  ],
+  // La regeneracion por tiempo (revalidate de la portada) se pide a si mismo.
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "cesaractivo"
     }
   ],
   // Solo valores publicos. Todo lo sensible va como Secret

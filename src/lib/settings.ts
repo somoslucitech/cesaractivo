@@ -68,6 +68,9 @@ export const obtenerConfigPrecio = cache(async (): Promise<ConfigPrecio> => {
   try {
     return configDesdeAjustes(await leerAjustes());
   } catch (error) {
+    // En el build no: la portada se generaria con los precios por defecto y
+    // asi se publicaria. Mejor que el build falle.
+    if (process.env.NEXT_PHASE === "phase-production-build") throw error;
     console.error("[cesaractivo] no se pudieron leer los ajustes de precio:", error);
     return CONFIG_POR_DEFECTO;
   }

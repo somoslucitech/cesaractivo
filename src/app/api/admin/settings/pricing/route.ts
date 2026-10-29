@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { adminDeApi } from "@/lib/auth/guard";
@@ -62,6 +63,10 @@ export async function PATCH(req: NextRequest) {
     },
     admin.adminId,
   );
+
+  // La portada es estatica: sin esto seguiria mostrando el precio anterior
+  // (y se cobraria uno distinto al que se ve) hasta la proxima hora.
+  revalidatePath("/");
 
   return NextResponse.json({ ok: true });
 }
