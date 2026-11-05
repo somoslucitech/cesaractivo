@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "cesaractivo",
-  "main": ".open-next/worker.js",
+  // Envuelve .open-next/worker.js: corta las rutas que no existen antes de Next.
+  "main": "worker.ts",
   "compatibility_date": "2026-07-10",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
